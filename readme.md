@@ -2,7 +2,7 @@
 
 > These solutions may not be perfect, but they're how I solved Advent of Code.
 >
-> Solutions are in TypeScript.
+> Solutions are in TypeScript (Deno).
 
 ## ❄️ Installation:
 
