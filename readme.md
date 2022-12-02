@@ -7,4 +7,4 @@
 ## Installation:
 
 1. Make a `input.txt` file and put your seed for the particular problem.
-2. Do `deno run src/dayX/mod.ts` where `X` is the day you wish to view.
+2. Do `deno run --allow-read allow-run ./src/mod.ts` & choose the day.
