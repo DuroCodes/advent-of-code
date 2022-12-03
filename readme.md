@@ -1,4 +1,4 @@
-# 🎄 Advent of Code Solutions 
+# 🎄 Advent of Code Solutions
 
 > These solutions may not be perfect, but they're how I solved Advent of Code.
 >

@@ -10,41 +10,39 @@ const Shapes: Record<string, number> = {
 const input = (await Deno.readTextFile('input.txt')).trim();
 const split = input.split('\n').map((v) => v.split(' '));
 
-const partOneRounds = split.map(([leftShape, rightShape]) => {
-  const left = Shapes[leftShape];
-  const right = Shapes[rightShape];
-  const diff = Math.abs(left - right);
+const partOne = () => {
+  return split.map(([leftShape, rightShape]) => {
+    const left = Shapes[leftShape];
+    const right = Shapes[rightShape];
+    const diff = Math.abs(left - right);
 
-  // Tie
-  if (left === right) {
-    return right + 3;
-  }
+    if (left === right) {
+      return right + 3;
+    }
 
-  // Win
-  if ((diff === 1 && right > left) || (right === 1 && left === 3)) {
-    return right + 6;
-  }
+    if ((diff === 1 && right > left) || (right === 1 && left === 3)) {
+      return right + 6;
+    }
 
-  // Lose
-  return right;
-});
+    return right;
+  }).reduce((a, b) => a + b);
+};
 
-const partTwoRounds = split.map(([leftShape, rightShape]) => {
-  const left = Shapes[leftShape];
+const partTwo = () => {
+  return split.map(([leftShape, rightShape]) => {
+    const left = Shapes[leftShape];
 
-  // Lose
-  if (rightShape === 'X') {
-    return left - 1 || 3;
-  }
+    if (rightShape === 'X') {
+      return left - 1 || 3;
+    }
 
-  // Tie
-  if (rightShape === 'Y') {
-    return left + 3;
-  }
+    if (rightShape === 'Y') {
+      return left + 3;
+    }
 
-  // Win
-  return ((left + 1) % 3 || 3) + 6;
-});
+    return ((left + 1) % 3 || 3) + 6;
+  }).reduce((a, b) => a + b);
+};
 
-console.log(`Part 1: ${partOneRounds.reduce((a, b) => a + b)}`);
-console.log(`Part 2: ${partTwoRounds.reduce((a, b) => a + b)}`);
+console.log(`Part 1: ${partOne()}`);
+console.log(`Part 2: ${partTwo()}`);
