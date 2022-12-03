@@ -1,4 +1,4 @@
-const input = (await Deno.readTextFile('input.txt')).trim();
+import { input } from '../input.ts';
 
 const calories = input
   .split('\n\n')

@@ -1,3 +1,5 @@
+import { input } from '../input.ts';
+
 const Shapes: Record<string, number> = {
   A: 1,
   X: 1,
@@ -7,7 +9,6 @@ const Shapes: Record<string, number> = {
   Z: 3,
 };
 
-const input = (await Deno.readTextFile('input.txt')).trim();
 const split = input.split('\n').map((v) => v.split(' '));
 
 const partOne = () => {
