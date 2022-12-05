@@ -11,10 +11,17 @@ for await (const { name: value, isDirectory } of Deno.readDir('./src')) {
   }
 }
 
+const options = days.reverse().sort(({ name: first }, { name: second }) => {
+  const [_, firstNum] = first?.split(' ').map((v) => parseInt(v))!;
+  const [__, secondNum] = second?.split(' ').map((v) => parseInt(v))!;
+
+  return firstNum < secondNum ? -1 : 1;
+});
+
 const day = await Select.prompt({
   message: 'Which day would you like to run?',
-  options: days.reverse(),
   search: true,
+  options,
 });
 
 await Deno.run({
