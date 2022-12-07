@@ -9,8 +9,8 @@ const calories = input
 
 const sorted = calories.sort((a, b) => b - a).slice(0, 3);
 
-const partOne = () => (sorted[0]);
-const partTwo = () => (sorted.reduce((a, b) => a + b));
+const partOne = () => sorted[0];
+const partTwo = () => sorted.reduce((a, b) => a + b);
 
 console.log(`Part 1: ${partOne()}`);
 console.log(`Part 2: ${partTwo()}`);
