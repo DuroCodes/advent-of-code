@@ -15,4 +15,4 @@ const partOne = () => findIndex();
 const partTwo = () => findIndex(14);
 
 console.log(`Part 1: ${partOne()}`);
-console.log(`Part 1: ${partTwo()}`);
+console.log(`Part 2: ${partTwo()}`);
