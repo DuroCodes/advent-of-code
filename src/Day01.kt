@@ -1,5 +1,5 @@
 fun main() {
-    val d = Day01(readInput("Day01"))
+    val d = Day01(readInput("input"))
     println(d.solvePart1())
     println(d.solvePart2())
 }
@@ -25,7 +25,7 @@ class Day01(private val input: List<String>) {
 
     fun solvePart1() = input.sumOf { calibrateRow(it) }
 
-    fun solvePart2(): Int = input.sumOf { r ->
+    fun solvePart2() = input.sumOf { r ->
         calibrateRow(
             r.mapIndexedNotNull { i, c ->
                 if (c.isDigit()) c
