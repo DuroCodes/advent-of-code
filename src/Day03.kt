@@ -23,8 +23,8 @@ class Day03(input: List<String>) {
                 }
 
                 val num = line.substring(x).takeWhile { it.isDigit() }
-                val top = (x..<x + num.length).map { Vector2D(it, y - 1) }
-                val bottom = (x..<x + num.length).map { Vector2D(it, y + 1) }
+                val top = (x until x + num.length).map { Vector2D(it, y - 1) }
+                val bottom = (x until x + num.length).map { Vector2D(it, y + 1) }
                 val left = (y - 1..y + 1).map { Vector2D(x - 1, it) }
                 val right = (y - 1..y + 1).map { Vector2D(x + num.length, it) }
 
