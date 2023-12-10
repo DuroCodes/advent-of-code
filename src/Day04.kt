@@ -4,7 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-class Day04(input: List<String>) {
+private class Day04(input: List<String>) {
     private val cards = input.map { parseCard(it) }
 
     private fun parseCard(str: String) = str.split(':', limit = 2).let { (_, numbersStr) ->
@@ -33,7 +33,7 @@ class Day04(input: List<String>) {
     }
 }
 
-data class Card(val winning: List<Int>, val have: List<Int>) {
+private data class Card(val winning: List<Int>, val have: List<Int>) {
     fun getWin() = have.fold(1) { acc, value -> if (value in winning) acc * 2 else acc } / 2
 
     fun getMatches() = winning.count { it in have }

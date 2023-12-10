@@ -4,7 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-class Day02(private val input: List<String>) {
+private class Day02(private val input: List<String>) {
     private fun parseLine(line: String) = line.lineSequence().map(Game.Companion::parse)
 
     fun solvePart1() = input.map(::parseLine).sumOf { games ->
@@ -14,7 +14,7 @@ class Day02(private val input: List<String>) {
     fun solvePart2() = input.map(::parseLine).sumOf { games -> games.sumOf { it.minSet().power } }
 }
 
-data class Game(val id: Int, val rounds: List<Balls>) {
+private data class Game(val id: Int, val rounds: List<Balls>) {
     data class Balls(val red: Int, val green: Int, val blue: Int) {
         val power = red * blue * green
     }

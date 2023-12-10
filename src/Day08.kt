@@ -4,7 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-class Day08(input: List<String>) {
+private class Day08(input: List<String>) {
     private val instructions = input.first()
     private val network = input.drop(2).associate { l ->
         l.split(" = ").let {

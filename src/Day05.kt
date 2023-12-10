@@ -10,7 +10,7 @@ fun main() {
     time { println(d.solvePart2()) }
 }
 
-class Day05(private val input: List<String>) {
+private class Day05(private val input: List<String>) {
     private val almanac = Almanac(input.joinToString("\n"))
     fun solvePart1(): Long {
         return almanac.seeds.minOf { almanac.process(it) }
@@ -43,7 +43,7 @@ class Day05(private val input: List<String>) {
     }
 }
 
-data class Almanac(val seeds: List<Long>, val mappings: List<MappingGroup>) {
+private data class Almanac(val seeds: List<Long>, val mappings: List<MappingGroup>) {
 
     companion object {
         operator fun invoke(string: String, inverse: Boolean = false): Almanac {
@@ -91,13 +91,13 @@ data class Almanac(val seeds: List<Long>, val mappings: List<MappingGroup>) {
     }
 }
 
-data class Mapping(val source: Long, val dest: Long, val size: Long) {
+private data class Mapping(val source: Long, val dest: Long, val size: Long) {
     fun mappedValue(value: Long): Long? {
         return if (value in source until source + size) dest + (value - source) else null
     }
 }
 
-data class MappingGroup(val sourceCategory: String, val destCategory: String, val mappings: List<Mapping>) {
+private data class MappingGroup(val sourceCategory: String, val destCategory: String, val mappings: List<Mapping>) {
     fun mappedValue(value: Long): Long {
         return mappings.firstNotNullOfOrNull { it.mappedValue(value) } ?: value
     }

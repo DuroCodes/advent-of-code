@@ -4,7 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-class Day06(private val input: List<String>) {
+private class Day06(private val input: List<String>) {
     fun solvePart1() = solve(input)
 
     fun solvePart2() = solve(input.map { it.replace(" ", "") })

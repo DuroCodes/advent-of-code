@@ -4,7 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-class Day07(private val input: List<String>) {
+private class Day07(private val input: List<String>) {
     fun solvePart1() = scoreHand(false)
     fun solvePart2() = scoreHand(true)
 

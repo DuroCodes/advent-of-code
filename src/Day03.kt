@@ -4,7 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-class Day03(input: List<String>) {
+private class Day03(input: List<String>) {
     private val engine = parseEngine(input)
 
     fun solvePart1() = engine.sumOfParts
@@ -50,4 +50,4 @@ class Day03(input: List<String>) {
     }
 }
 
-data class Engine(val sumOfParts: Int, val sumOfGears: Int)
+private data class Engine(val sumOfParts: Int, val sumOfGears: Int)

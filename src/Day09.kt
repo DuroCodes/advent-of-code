@@ -4,7 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-class Day09(input: List<String>) {
+private class Day09(input: List<String>) {
     private val lines = input.map { it.split(" ").map(String::toInt) }
 
     private fun lineHistory(line: List<Int>) = buildList<List<Int>> {

@@ -4,7 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-class Day01(private val input: List<String>) {
+private class Day01(private val input: List<String>) {
     private val words = mapOf(
         "one" to 1,
         "two" to 2,
