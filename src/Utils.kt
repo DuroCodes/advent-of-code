@@ -16,6 +16,16 @@ data class Region2D(val xRange: IntRange, val yRange: IntRange) : Iterable<Vecto
 
 inline fun <T : Any> parse(parser: () -> T): T = runCatching { parser() }.getOrElse { error(it) }
 
+fun <T> List<T>.forEachPair(unique: Boolean = false, block: (T, T) -> Unit) {
+    for (i in indices) {
+        val startIndex = if (unique) i + 1 else 0
+        for (j in startIndex until this.size) {
+            if (i == j) continue
+            block.invoke(this[i], this[j])
+        }
+    }
+}
+
 data class Vector2D(val x: Int, val y: Int) {
     fun move(dir: Direction) = when (dir) {
         Direction.Left -> Vector2D(x - 1, y)

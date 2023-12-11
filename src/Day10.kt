@@ -4,8 +4,7 @@ fun main() {
     println(d.solvePart2())
 }
 
-
-class Day10(private val input: List<String>) {
+private class Day10(private val input: List<String>) {
     fun solvePart1() = parseInput(input.joinToString("\n")).loop.size / 2
     fun solvePart2() = parseInput(input.joinToString("\n")).loopVolume
 
