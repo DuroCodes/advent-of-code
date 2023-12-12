@@ -6,6 +6,8 @@ fun main() {
 
 
 private class Day12(private val input: List<String>) {
+    private val cache = mutableMapOf<Pair<String, List<Int>>, Long>()
+
     fun solvePart1() = input.sumOf {
         it.split(" ").let { s -> countLine(s.first(), s[1].split(",").map(String::toInt)) }
     }
@@ -18,7 +20,6 @@ private class Day12(private val input: List<String>) {
         }
     }
 
-    private val cache = mutableMapOf<Pair<String, List<Int>>, Long>()
     fun countLine(str: String, groups: List<Int>): Long {
         if (groups.isEmpty()) return if ("#" in str) 0 else 1
         if (str.isEmpty()) return 0
