@@ -6,7 +6,6 @@ fun main() {
     println(d.solvePart2())
 }
 
-
 private class Day11(input: List<String>) {
     val grid = parseGridFromString(input.joinToString("\n")) { it }
 

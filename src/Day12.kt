@@ -4,7 +4,6 @@ fun main() {
     println(d.solvePart2())
 }
 
-
 private class Day12(private val input: List<String>) {
     private val cache = mutableMapOf<Pair<String, List<Int>>, Long>()
 
