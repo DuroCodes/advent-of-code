@@ -9,7 +9,7 @@ private const val ROCK = 1
 private const val CUBE = 2
 
 private class Day14(input: List<String>) {
-    private val grid: List<IntArray> = input.map { line ->
+    private val grid = input.map { line ->
         IntArray(line.length) { i ->
             when (line[i]) {
                 '.' -> EMPTY
