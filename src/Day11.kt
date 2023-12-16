@@ -2,15 +2,14 @@ import kotlin.math.abs
 
 fun main() {
     val d = Day11(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day11(input: List<String>) {
+private class Day11(input: List<String>) : Day {
     val grid = parseGridFromString(input.joinToString("\n")) { it }
 
-    fun solvePart1() = process(grid, 2)
-    fun solvePart2() = process(grid, 1000000)
+    override fun solvePart1() = process(grid, 2)
+    override fun solvePart2() = process(grid, 1000000)
 
     fun process(grid: Map<Vector2D, Char>, multiplier: Int): Long {
         val emptyCols = (0..grid.keys.maxOf { it.x }).filter { x ->

@@ -3,6 +3,17 @@ import kotlin.io.path.readLines
 
 fun readInput(name: String) = Path("src/$name.txt").readLines()
 
+interface Day {
+    fun solvePart1(): Any
+    fun solvePart2(): Any
+    fun solve() {
+        time {
+            println(solvePart1())
+            println(solvePart2())
+        }
+    }
+}
+
 data class Region2D(val xRange: IntRange, val yRange: IntRange) : Iterable<Vector2D> {
     fun contains(point: Vector2D) = point.x in xRange && point.y in yRange
     override fun iterator() = iterator {
@@ -33,6 +44,8 @@ data class Vector2D(val x: Int, val y: Int) {
         Direction.Up -> Vector2D(x, y + 1)
         Direction.Down -> Vector2D(x, y - 1)
     }
+
+    operator fun plus(other: Vector2D) = Vector2D(x + other.x, y + other.y)
 }
 
 sealed interface Direction {

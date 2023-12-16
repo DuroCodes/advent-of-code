@@ -1,10 +1,9 @@
 fun main() {
     val d = Day15(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day15(private val input: List<String>) {
+private class Day15(private val input: List<String>) : Day {
     private fun asciiTotal(s: String): Int {
         var result = 0
         s.forEach {
@@ -28,8 +27,8 @@ private class Day15(private val input: List<String>) {
         }.sum()
     }
 
-    fun solvePart1() = input.first().split(",").sumOf { asciiTotal(it) }
-    fun solvePart2() = input.first().split(",").map { l ->
+    override fun solvePart1() = input.first().split(",").sumOf { asciiTotal(it) }
+    override fun solvePart2() = input.first().split(",").map { l ->
         l.split(Regex("[\\-=]")).let {
             it.first() to it.last()
         }

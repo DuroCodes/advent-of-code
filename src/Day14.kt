@@ -1,14 +1,13 @@
 fun main() {
     val d = Day14(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
 private const val EMPTY = 0
 private const val ROCK = 1
 private const val CUBE = 2
 
-private class Day14(input: List<String>) {
+private class Day14(input: List<String>) : Day {
     private val grid = input.map { line ->
         IntArray(line.length) { i ->
             when (line[i]) {
@@ -59,12 +58,12 @@ private class Day14(input: List<String>) {
     private fun getLoad(grid: List<IntArray>) =
         grid.indices.sumOf { x -> (grid.size - x) * grid[x].count { n -> n == ROCK } }
 
-    fun solvePart1(): Int {
+    override fun solvePart1(): Int {
         rollNorth()
         return getLoad(grid)
     }
 
-    fun solvePart2(): Int {
+    override fun solvePart2(): Int {
         rollWest()
         rollSouth()
         rollEast()

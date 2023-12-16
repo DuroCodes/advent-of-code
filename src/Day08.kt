@@ -1,10 +1,9 @@
 fun main() {
     val d = Day08(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day08(input: List<String>) {
+private class Day08(input: List<String>) : Day {
     private val instructions = input.first()
     private val network = input.drop(2).associate { l ->
         l.split(" = ").let {
@@ -23,6 +22,6 @@ private class Day08(input: List<String>) {
         return i.toLong()
     }
 
-    fun solvePart1() = solveForNode(network.keys.find { it == "AAA" }!!)
-    fun solvePart2() = network.keys.filter { it.last() == 'A' }.map { solveForNode(it) }.reduce(::lcm)
+    override fun solvePart1() = solveForNode(network.keys.find { it == "AAA" }!!)
+    override fun solvePart2() = network.keys.filter { it.last() == 'A' }.map { solveForNode(it) }.reduce(::lcm)
 }

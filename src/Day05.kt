@@ -6,18 +6,16 @@ import java.util.concurrent.atomic.AtomicLong
 
 fun main() {
     val d = Day05(readInput("input"))
-    println(d.solvePart1())
-    time { println(d.solvePart2()) }
+    d.solve()
 }
 
-private class Day05(private val input: List<String>) {
+private class Day05(private val input: List<String>) : Day {
     private val almanac = Almanac(input.joinToString("\n"))
-    fun solvePart1(): Long {
+    override fun solvePart1(): Long {
         return almanac.seeds.minOf { almanac.process(it) }
     }
 
-    // this took 39686 ms on my machine (m1 macbook air) 💀
-    fun solvePart2(): Long {
+    override fun solvePart2(): Long {
         val inverseAlmanac = Almanac(input.joinToString("\n"), true)
 
         val seedRanges = inverseAlmanac.seeds.chunked(2).map { (start, len) -> start until start + len }

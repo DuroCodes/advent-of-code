@@ -1,10 +1,9 @@
 fun main() {
     val d = Day04(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day04(input: List<String>) {
+private class Day04(input: List<String>) : Day {
     private val cards = input.map { parseCard(it) }
 
     private fun parseCard(str: String) = str.split(':', limit = 2).let { (_, numbersStr) ->
@@ -15,9 +14,9 @@ private class Day04(input: List<String>) {
         Card(winning, have)
     }
 
-    fun solvePart1() = cards.sumOf { it.getWin() }
+    override fun solvePart1() = cards.sumOf { it.getWin() }
 
-    fun solvePart2(): Int {
+    override fun solvePart2(): Int {
         val matches = cards.map { it.getMatches() }
         val numCards = mutableMapOf<Int, Int>()
 

@@ -1,10 +1,9 @@
 fun main() {
     val d = Day01(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day01(private val input: List<String>) {
+private class Day01(private val input: List<String>) : Day {
     private val words = mapOf(
         "one" to 1,
         "two" to 2,
@@ -23,9 +22,9 @@ private class Day01(private val input: List<String>) {
         return "$first$last".toInt()
     }
 
-    fun solvePart1() = input.sumOf { calibrateRow(it) }
+    override fun solvePart1() = input.sumOf { calibrateRow(it) }
 
-    fun solvePart2() = input.sumOf { r ->
+    override fun solvePart2() = input.sumOf { r ->
         calibrateRow(
             r.mapIndexedNotNull { i, c ->
                 if (c.isDigit()) c

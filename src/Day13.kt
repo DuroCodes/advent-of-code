@@ -2,16 +2,15 @@ import kotlin.math.absoluteValue
 
 fun main() {
     val d = Day13(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day13(input: List<String>) {
+private class Day13(input: List<String>) : Day {
     private val patterns = parseInput(input)
 
-    fun solvePart1() = patterns.sumOf { findMirror(it, 0) }
+    override fun solvePart1() = patterns.sumOf { findMirror(it, 0) }
 
-    fun solvePart2() = patterns.sumOf { findMirror(it, 1) }
+    override fun solvePart2() = patterns.sumOf { findMirror(it, 1) }
 
     private fun findMirror(pattern: List<String>, goalToInt: Int) =
         findHorizontalMirror(pattern, goalToInt) ?: findVerticalMirror(pattern, goalToInt)

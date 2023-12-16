@@ -1,17 +1,16 @@
 fun main() {
     val d = Day02(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day02(private val input: List<String>) {
+private class Day02(private val input: List<String>) : Day {
     private fun parseLine(line: String) = line.lineSequence().map(Game.Companion::parse)
 
-    fun solvePart1() = input.map(::parseLine).sumOf { games ->
+    override fun solvePart1() = input.map(::parseLine).sumOf { games ->
         games.filter { g -> g.isPossibleWith(Game.Balls(12, 13, 14)) }.sumOf { it.id }
     }
 
-    fun solvePart2() = input.map(::parseLine).sumOf { games -> games.sumOf { it.minSet().power } }
+    override fun solvePart2() = input.map(::parseLine).sumOf { games -> games.sumOf { it.minSet().power } }
 }
 
 private data class Game(val id: Int, val rounds: List<Balls>) {

@@ -1,21 +1,21 @@
 fun main() {
     val d = Day12(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day12(private val input: List<String>) {
+private class Day12(private val input: List<String>) : Day {
     private val cache = mutableMapOf<Pair<String, List<Int>>, Long>()
 
-    fun solvePart1() = input.sumOf {
+    override fun solvePart1() = input.sumOf {
         it.split(" ").let { s -> countLine(s.first(), s[1].split(",").map(String::toInt)) }
     }
 
-    fun solvePart2() = input.sumOf {
+    override fun solvePart2() = input.sumOf {
         it.split(" ").let { s ->
             countLine(
                 "${s.first()}?".repeat(5).dropLast(1),
-                "${s[1]},".repeat(5).split(",").filter { it.isNotBlank() }.map(String::toInt))
+                "${s[1]},".repeat(5).split(",").filter { it.isNotBlank() }.map(String::toInt)
+            )
         }
     }
 

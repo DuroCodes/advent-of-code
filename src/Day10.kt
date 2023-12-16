@@ -1,12 +1,11 @@
 fun main() {
     val d = Day10(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day10(private val input: List<String>) {
-    fun solvePart1() = parseInput(input.joinToString("\n")).loop.size / 2
-    fun solvePart2() = parseInput(input.joinToString("\n")).loopVolume
+private class Day10(private val input: List<String>) : Day {
+    override fun solvePart1() = parseInput(input.joinToString("\n")).loop.size / 2
+    override fun solvePart2() = parseInput(input.joinToString("\n")).loopVolume
 
     private fun parseInput(input: String) = parse {
         lateinit var start: Vector2D

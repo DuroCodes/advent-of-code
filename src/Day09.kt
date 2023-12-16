@@ -1,10 +1,9 @@
 fun main() {
     val d = Day09(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day09(input: List<String>) {
+private class Day09(input: List<String>) : Day {
     private val lines = input.map { it.split(" ").map(String::toInt) }
 
     private fun lineHistory(line: List<Int>) = buildList<List<Int>> {
@@ -15,6 +14,6 @@ private class Day09(input: List<String>) {
         reverse()
     }
 
-    fun solvePart1() = lines.sumOf { lineHistory(it).fold(0L) { acc, l -> acc + l.last() } }
-    fun solvePart2() = lines.sumOf { lineHistory(it).fold(0L) { acc, l -> l[0] - acc } }
+    override fun solvePart1() = lines.sumOf { lineHistory(it).fold(0L) { acc, l -> acc + l.last() } }
+    override fun solvePart2() = lines.sumOf { lineHistory(it).fold(0L) { acc, l -> l[0] - acc } }
 }

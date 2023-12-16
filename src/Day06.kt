@@ -1,13 +1,12 @@
 fun main() {
     val d = Day06(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day06(private val input: List<String>) {
-    fun solvePart1() = solve(input)
+private class Day06(private val input: List<String>) : Day {
+    override fun solvePart1() = solve(input)
 
-    fun solvePart2() = solve(input.map { it.replace(" ", "") })
+    override fun solvePart2() = solve(input.map { it.replace(" ", "") })
 
     private fun solve(input: List<String>): Long {
         val (times, distances) = input.map {

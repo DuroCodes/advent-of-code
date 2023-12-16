@@ -1,14 +1,13 @@
 fun main() {
     val d = Day03(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day03(input: List<String>) {
+private class Day03(input: List<String>) : Day {
     private val engine = parseEngine(input)
 
-    fun solvePart1() = engine.sumOfParts
-    fun solvePart2() = engine.sumOfGears
+    override fun solvePart1() = engine.sumOfParts
+    override fun solvePart2() = engine.sumOfGears
 
     private fun parseEngine(input: List<String>): Engine {
         var parts = 0

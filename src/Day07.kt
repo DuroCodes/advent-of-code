@@ -1,12 +1,11 @@
 fun main() {
     val d = Day07(readInput("input"))
-    println(d.solvePart1())
-    println(d.solvePart2())
+    d.solve()
 }
 
-private class Day07(private val input: List<String>) {
-    fun solvePart1() = scoreHand(false)
-    fun solvePart2() = scoreHand(true)
+private class Day07(private val input: List<String>) : Day {
+    override fun solvePart1() = scoreHand(false)
+    override fun solvePart2() = scoreHand(true)
 
     private fun cardToInt(card: Char, joker: Boolean) = when (card) {
         'A' -> 12
