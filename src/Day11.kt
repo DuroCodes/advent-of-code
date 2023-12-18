@@ -11,7 +11,7 @@ private class Day11(input: List<String>) : Day {
     override fun solvePart1() = process(grid, 2)
     override fun solvePart2() = process(grid, 1000000)
 
-    fun process(grid: Map<Vector2D, Char>, multiplier: Int): Long {
+    fun process(grid: Map<Vector2D<Int>, Char>, multiplier: Int): Long {
         val emptyCols = (0..grid.keys.maxOf { it.x }).filter { x ->
             grid.count { it.key.x == x && it.value == '#' } == 0
         }.toSortedSet()
@@ -41,9 +41,9 @@ private class Day11(input: List<String>) : Day {
         return sum
     }
 
-    fun <T> parseGridFromString(string: String, converter: (Char) -> T?): Map<Vector2D, T> {
+    fun <T> parseGridFromString(string: String, converter: (Char) -> T?): Map<Vector2D<Int>, T> {
         var y = 0
-        val result = mutableMapOf<Vector2D, T>()
+        val result = mutableMapOf<Vector2D<Int>, T>()
         string.split("\n").forEach {
             var x = 0
             for (c in it) {

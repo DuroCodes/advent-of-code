@@ -76,5 +76,5 @@ private class Day16(private val input: List<String>) : Day {
     }
 }
 
-data class Beam(val pos: Vector2D, val dir: Vector2D)
-data class Obstacle(val pos: Vector2D, val type: Char)
+data class Beam(val pos: Vector2D<Int>, val dir: Vector2D<Int>)
+data class Obstacle(val pos: Vector2D<Int>, val type: Char)

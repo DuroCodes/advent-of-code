@@ -8,7 +8,7 @@ private class Day10(private val input: List<String>) : Day {
     override fun solvePart2() = parseInput(input.joinToString("\n")).loopVolume
 
     private fun parseInput(input: String) = parse {
-        lateinit var start: Vector2D
+        lateinit var start: Vector2D<Int>
 
         fun parseNode(x: Int, y: Int, value: Char) = Pipe(
             location = Vector2D(x, y),
@@ -42,7 +42,7 @@ private class Day10(private val input: List<String>) : Day {
     }
 }
 
-private data class Pipe(val location: Vector2D, val dir: Pair<Direction, Direction>) {
+private data class Pipe(val location: Vector2D<Int>, val dir: Pair<Direction, Direction>) {
     fun redirect(inc: Direction) = when (inc) {
         dir.first -> dir.second
         dir.second -> dir.first
@@ -51,7 +51,7 @@ private data class Pipe(val location: Vector2D, val dir: Pair<Direction, Directi
 }
 
 private data class PipeGrid(
-    private val area: Region2D, private val nodes: Map<Vector2D, Pipe>, private val start: Vector2D
+    private val area: Region2D, private val nodes: Map<Vector2D<Int>, Pipe>, private val start: Vector2D<Int>
 ) {
     val loop = buildList {
         fun Pair<Pipe, Direction>.flow(): Pair<Pipe, Direction> {

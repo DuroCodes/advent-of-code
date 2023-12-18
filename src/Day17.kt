@@ -8,13 +8,13 @@ private class Day17(input: List<String>) : Day {
         l.mapIndexed { x, n -> Vector2D(x, y) to n.digitToInt() }
     }.let(::GearIslandMap)
 
-    class GearIslandMap(initial: Iterable<Pair<Vector2D, Int>>) {
-        private val grid: Map<Vector2D, Int> = initial.associate { it.first to it.second }
+    class GearIslandMap(initial: Iterable<Pair<Vector2D<Int>, Int>>) {
+        private val grid: Map<Vector2D<Int>, Int> = initial.associate { it.first to it.second }
 
         val area = Region2D(grid.keys)
 
         private data class CrucibleSearchState(
-            val position: Vector2D,
+            val position: Vector2D<Int>,
             val direction: Direction,
             val straightLineStreak: Int,
         )
@@ -41,7 +41,7 @@ private class Day17(input: List<String>) : Day {
             }
         }
 
-        fun navigate(start: Vector2D, end: Vector2D, withUltraCrucible: Boolean): List<Pair<Vector2D, Int>> {
+        fun navigate(start: Vector2D<Int>, end: Vector2D<Int>, withUltraCrucible: Boolean): List<Pair<Vector2D<Int>, Int>> {
             val graph = object : Graph<CrucibleSearchState> {
                 override fun neighborsOf(node: CrucibleSearchState) = neighborsOf(node, withUltraCrucible)
             }

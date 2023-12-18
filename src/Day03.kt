@@ -11,7 +11,7 @@ private class Day03(input: List<String>) : Day {
 
     private fun parseEngine(input: List<String>): Engine {
         var parts = 0
-        val asterisks = mutableMapOf<Vector2D, MutableList<Int>>()
+        val asterisks = mutableMapOf<Vector2D<Int>, MutableList<Int>>()
 
         input.forEachIndexed { y, line ->
             var x = 0

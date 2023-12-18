@@ -15,13 +15,14 @@ interface Day {
     }
 }
 
-data class Region2D(val xRange: IntRange, val yRange: IntRange) : Iterable<Vector2D> {
-    constructor(points: Iterable<Vector2D>) : this(
+data class Region2D(val xRange: IntRange, val yRange: IntRange) : Iterable<Vector2D<Int>> {
+    constructor(points: Iterable<Vector2D<Int>>) : this(
         points.minOf { it.x }..points.maxOf { it.x },
         points.minOf { it.y }..points.maxOf { it.y },
     )
 
-    fun contains(point: Vector2D) = point.x in xRange && point.y in yRange
+    fun contains(point: Vector2D<Int>) = point.x in xRange && point.y in yRange
+
     override fun iterator() = iterator {
         for (x in xRange) {
             for (y in yRange) {
@@ -43,15 +44,20 @@ fun <T> List<T>.forEachPair(unique: Boolean = false, block: (T, T) -> Unit) {
     }
 }
 
-data class Vector2D(val x: Int, val y: Int) {
+data class Vector2D<T : Number>(val x: T, val y: T) {
     fun move(dir: Direction) = when (dir) {
-        Direction.Left -> Vector2D(x - 1, y)
-        Direction.Right -> Vector2D(x + 1, y)
-        Direction.Up -> Vector2D(x, y + 1)
-        Direction.Down -> Vector2D(x, y - 1)
+        Direction.Left -> Vector2D(x.toInt() - 1, y.toInt())
+        Direction.Right -> Vector2D(x.toInt() + 1, y.toInt())
+        Direction.Up -> Vector2D(x.toInt(), y.toInt() + 1)
+        Direction.Down -> Vector2D(x.toInt(), y.toInt() - 1)
     }
 
-    operator fun plus(other: Vector2D) = Vector2D(x + other.x, y + other.y)
+    @JvmName("plusInt")
+    operator fun plus(other: Vector2D<Int>) = Vector2D(x.toInt() + other.x, y.toInt() + other.y)
+
+    @JvmName("plusLong")
+    operator fun plus(other: Vector2D<Long>) = Vector2D(x.toLong() + other.x, y.toLong() + other.y)
+    operator fun times(multiplier: Long) = Vector2D(x.toLong() * multiplier, y.toLong() * multiplier)
 }
 
 sealed interface Direction {
@@ -122,17 +128,17 @@ fun <T : Any> SearchResult<T>.pathTo(node: T): SearchPath<T>? {
     val cost = searchTree[node]?.second ?: return null
     val path = buildList {
         var current = node
-        while(true) {
+        while (true) {
             add(current)
             val previous = searchTree.getValue(current).first
-            if(previous == current) break
+            if (previous == current) break
             current = previous
         }
     }.asReversed()
     return SearchPath(path, cost)
 }
 
-fun <T : Any> SearchResult<T>.path(): SearchPath<T>? = when(destination) {
+fun <T : Any> SearchResult<T>.path(): SearchPath<T>? = when (destination) {
     null -> null
     else -> pathTo(destination)
 }
@@ -155,11 +161,11 @@ fun <T : Any> Graph<T>.search(
         if (goalFunction(node)) return SearchResult(start, node, searchTree)
 
         neighborsOf(node).filter { it.first !in searchTree }.forEach { (next, cost) ->
-                val nextCost = costSoFar + cost
-                if (nextCost <= maximumCost && nextCost <= (searchTree[next]?.second ?: Int.MAX_VALUE)) {
-                    queue.add(next to heuristic(next).plus(nextCost))
-                    searchTree[next] = node to nextCost
-                }
+            val nextCost = costSoFar + cost
+            if (nextCost <= maximumCost && nextCost <= (searchTree[next]?.second ?: Int.MAX_VALUE)) {
+                queue.add(next to heuristic(next) + nextCost)
+                searchTree[next] = node to nextCost
             }
+        }
     }
 }
