@@ -63,7 +63,7 @@ private class Day20(input: List<String>) : Day {
     }
 }
 
-sealed interface Module {
+private sealed interface Module {
     val lastSignal: Boolean
     val key: String
     val output: List<String>
@@ -71,12 +71,12 @@ sealed interface Module {
     fun reset() {}
 }
 
-data class Start(override val key: String, override val output: List<String>) : Module {
+private data class Start(override val key: String, override val output: List<String>) : Module {
     override val lastSignal = false
     override fun receive(from: String, signal: Boolean) = output to signal
 }
 
-data class Flip(override val key: String, override val output: List<String>) : Module {
+private data class Flip(override val key: String, override val output: List<String>) : Module {
     override var lastSignal = false
     override fun receive(from: String, signal: Boolean): Pair<List<String>, Boolean> {
         return when (signal) {
@@ -90,7 +90,7 @@ data class Flip(override val key: String, override val output: List<String>) : M
     }
 }
 
-data class And(override val key: String, override val output: List<String>) : Module {
+private data class And(override val key: String, override val output: List<String>) : Module {
     val input = mutableMapOf<String, Boolean>()
     override val lastSignal get() = !input.values.all { it }
     override fun receive(from: String, signal: Boolean): Pair<List<String>, Boolean> {
