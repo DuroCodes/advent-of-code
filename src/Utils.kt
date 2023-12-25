@@ -60,6 +60,21 @@ data class Vector2D<T : Number>(val x: T, val y: T) {
     operator fun times(multiplier: Long) = Vector2D(x.toLong() * multiplier, y.toLong() * multiplier)
 }
 
+data class Vector3D(val x: Long, val y: Long, val z: Long) {
+    constructor(x: Int, y: Int, z: Int) : this(x.toLong(), y.toLong(), z.toLong())
+}
+
+fun <T : Any> Iterable<T>.distinctPairs(): Sequence<Pair<T, T>> = sequence {
+    val iter = this@distinctPairs.iterator()
+    if (!iter.hasNext()) return@sequence
+    val previous = mutableListOf(iter.next())
+    while (iter.hasNext()) {
+        val second = iter.next()
+        for (first in previous) yield(first to second)
+        previous.add(second)
+    }
+}
+
 sealed interface Direction {
     sealed interface Horizontal : Direction
 
