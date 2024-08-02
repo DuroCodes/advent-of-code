@@ -1,4 +1,10 @@
-# advent of code 2023
+# advent of code
+
+## 2022
+
+trying to do solutions in ocaml 🗣️
+
+## 2023
 
 solutions in kotlin, pretty cool language if you ask me 😎
 
