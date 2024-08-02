@@ -2,3 +2,7 @@
 .idea
 build
 src/**/*.txt
+_build
+*.install
+*.merlin
+_opam

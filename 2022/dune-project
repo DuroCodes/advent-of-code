@@ -1,0 +1,23 @@
+(lang dune 3.16)
+
+(name advent-of-code)
+
+(generate_opam_files true)
+
+(source
+ (github durocodes/advent-of-code))
+
+(authors "DuroCodes")
+
+(maintainers "N/A")
+
+(license MIT)
+
+(package
+ (name advent-of-code)
+ (synopsis "Advent of Code 2022 in OCaml")
+ (description "Advent of Code 2022 in OCaml")
+ (depends ocaml dune)
+ (tags ("advent-of-code")))
+
+; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
