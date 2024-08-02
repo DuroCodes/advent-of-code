@@ -3,6 +3,7 @@ open Utils
 open Day01
 open Day02
 open Day03
+open Day04
 
 let day = ref (-1)
 let input_file = ref ""
@@ -31,6 +32,7 @@ let () =
     | 1 -> (module Day01 : Day)
     | 2 -> (module Day02 : Day)
     | 3 -> (module Day03 : Day)
+    | 4 -> (module Day04 : Day)
     | _ -> raise (InvalidDay !day)
   in
   let input_str =
