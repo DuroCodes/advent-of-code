@@ -1,7 +1,10 @@
-type answer = Answer of int | Unknown
+open Base
+
+type answer = AnswerInt of int | AnswerCharList of char list | Unknown
 
 let answer_to_string = function
-  | Answer x -> Int.to_string x
+  | AnswerInt x -> Int.to_string x
+  | AnswerCharList x -> String.of_char_list x
   | Unknown -> "Not Yet Implemented"
 
 module type Day = sig

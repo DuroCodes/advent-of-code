@@ -16,7 +16,7 @@ module Day01 : Day = struct
     input
     |> List.map ~f:(List.fold ~init:0 ~f:( + ))
     |> List.max_elt ~compare:Int.compare
-    |> fun x -> match x with None -> Answer 0 | Some n -> Answer n
+    |> fun x -> match x with None -> AnswerInt 0 | Some n -> AnswerInt n
 
   let solve_part2 (Input input) =
     input
@@ -25,7 +25,7 @@ module Day01 : Day = struct
     |> List.rev
     |> (fun x -> List.take x 3)
     |> List.fold ~init:0 ~f:( + )
-    |> fun x -> Answer x
+    |> fun x -> AnswerInt x
 
   let part1 input_str =
     input_str |> parse_input |> solve_part1 |> answer_to_string

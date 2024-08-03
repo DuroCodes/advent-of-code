@@ -23,11 +23,11 @@ module Day04 : Day = struct
     input
     |> List.filter ~f:(fun (x, y) -> fully_covers x y || fully_covers y x)
     |> List.length
-    |> fun x -> Answer x
+    |> fun x -> AnswerInt x
 
   let solve_part2 (Input input) =
     input |> List.filter ~f:(fun (x, y) -> overlaps x y) |> List.length
-    |> fun x -> Answer x
+    |> fun x -> AnswerInt x
 
   let part1 input_str =
     input_str |> parse_input |> solve_part1 |> answer_to_string

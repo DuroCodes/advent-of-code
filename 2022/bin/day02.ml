@@ -65,13 +65,13 @@ module Day02 : Day = struct
     input
     |> List.map ~f:(fun { opp; player } -> round_score opp player)
     |> List.fold ~init:0 ~f:( + )
-    |> fun x -> Answer x
+    |> fun x -> AnswerInt x
 
   let solve_part2 (Input (_, input)) =
     input
     |> List.map ~f:(fun { opp; res } -> round_score opp (player_move opp res))
     |> List.fold ~init:0 ~f:( + )
-    |> fun x -> Answer x
+    |> fun x -> AnswerInt x
 
   let part1 input_str =
     input_str |> parse_input |> solve_part1 |> answer_to_string

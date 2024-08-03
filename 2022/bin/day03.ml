@@ -39,12 +39,12 @@ module Day03 : Day = struct
   let solve_part1 (Input input) =
     input |> List.map ~f:item_in_both |> List.map ~f:item_priority
     |> List.fold ~init:0 ~f:( + )
-    |> fun x -> Answer x
+    |> fun x -> AnswerInt x
 
   let solve_part2 (Input input) =
     input |> List.chunks_of ~length:3 |> List.map ~f:item_in_sacks
     |> List.map ~f:item_priority |> List.fold ~init:0 ~f:( + )
-    |> fun x -> Answer x
+    |> fun x -> AnswerInt x
 
   let part1 input_str =
     input_str |> parse_input |> solve_part1 |> answer_to_string
