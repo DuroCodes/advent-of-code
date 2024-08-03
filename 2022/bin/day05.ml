@@ -20,9 +20,12 @@ module Day05 : Day = struct
            | "" -> None
            | x -> Some (Int.of_string x))
     in
-    stack_nums
-    |> List.map ~f:(fun s ->
-           List.map lines_with_crates ~f:(fun l -> crate_from_stack l s))
+
+    let crate_map s =
+      List.map lines_with_crates ~f:(fun l -> crate_from_stack l s)
+    in
+
+    stack_nums |> List.map ~f:crate_map
     |> List.map ~f:(fun s -> List.filter s ~f:(fun c -> Char.( <> ) c ' '))
 
   let parse_procs lines =
