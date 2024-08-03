@@ -5,6 +5,7 @@ open Day02
 open Day03
 open Day04
 open Day05
+open Day06
 
 let day = ref (-1)
 let input_file = ref ""
@@ -35,6 +36,7 @@ let () =
     | 3 -> (module Day03 : Day)
     | 4 -> (module Day04 : Day)
     | 5 -> (module Day05 : Day)
+    | 6 -> (module Day06 : Day)
     | _ -> raise (InvalidDay !day)
   in
   let input_str =
