@@ -1,7 +1,8 @@
 .gradle
 .idea
 build
-src/**/*.txt
+*.txt
+.DS_Store
 _build
 *.install
 *.merlin
