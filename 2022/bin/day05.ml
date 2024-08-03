@@ -54,9 +54,6 @@ module Day05 : Day = struct
     let a = Array.of_list stacks in
     let first, second, num = proc in
     let f, t, n = (first - 1, second - 1, num) in
-    (* Printf.printf "Moving %d crates from stack %d to stack %d\n%!" n (f + 1) (t + 1); *)
-    if f < 0 || f >= Array.length a || t < 0 || t >= Array.length a then
-      failwith (Printf.sprintf "Invalid stack index: f=%d, t=%d, length=%d\n%!" f t (Array.length a));
     let s1, s2 =
       match model with
       | CM9000 -> restack (Array.get a f) (Array.get a t) n
