@@ -1,11 +1,5 @@
 open Printf
 open Utils
-open Day01
-open Day02
-open Day03
-open Day04
-open Day05
-open Day06
 
 let day = ref (-1)
 let input_file = ref ""
@@ -31,12 +25,13 @@ let () =
   in
   let (module Day : Day) =
     match !day with
-    | 1 -> (module Day01 : Day)
-    | 2 -> (module Day02 : Day)
-    | 3 -> (module Day03 : Day)
-    | 4 -> (module Day04 : Day)
-    | 5 -> (module Day05 : Day)
-    | 6 -> (module Day06 : Day)
+    | 1 -> (module Day01.Day01 : Day)
+    | 2 -> (module Day02.Day02 : Day)
+    | 3 -> (module Day03.Day03 : Day)
+    | 4 -> (module Day04.Day04 : Day)
+    | 5 -> (module Day05.Day05 : Day)
+    | 6 -> (module Day06.Day06 : Day)
+    | 7 -> (module Day07.Day07 : Day)
     | _ -> raise (InvalidDay !day)
   in
   let input_str =
