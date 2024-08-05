@@ -46,16 +46,12 @@ module Day08 : Day = struct
     let grid = forest.grid in
     let projections = get_projections tree_idx forest in
 
-    let projection_heights =
-      Array.map projections ~f:(fun p -> Array.map p ~f:(fun i -> grid.(i)))
-    in
-
     let rec counter = function
       | [] -> 0
       | l :: ls -> if grid.(tree_idx) <= l then 1 else 1 + counter ls
     in
 
-    projection_heights
+    Array.map projections ~f:(fun p -> Array.map p ~f:(fun i -> grid.(i)))
     |> Array.map ~f:(fun p -> counter (Array.to_list p))
     |> Array.fold ~init:1 ~f:( * )
 

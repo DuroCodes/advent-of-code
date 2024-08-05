@@ -2,70 +2,68 @@ open Base
 open Utils
 
 module Day09 : Day = struct
-  type grid = int array
-  type forest = { size : int; grid : grid }
-  type input = Input of forest
+  type direction = Up | Down | Left | Right
+  type position = int * int
+  type rope = { knots : position list }
+  type input = Input of direction list
+
+  let parse_line l =
+    let split = String.split l ~on:' ' in
+    let dir =
+      match List.hd_exn split with
+      | "U" -> Up
+      | "D" -> Down
+      | "L" -> Left
+      | "R" -> Right
+      | _ -> failwith "Invalid direction"
+    in
+
+    List.nth_exn split 1 |> Int.of_string |> List.init ~f:(fun _ -> dir)
 
   let parse_input t =
-    let lines = String.split_lines t in
-    let size = List.length lines in
-    let grid =
-      String.concat lines |> String.to_array
-      |> Array.map ~f:(fun c -> Int.of_string (Char.to_string c))
+    t |> String.split_lines |> List.map ~f:parse_line |> List.concat |> fun x ->
+    Input x
+
+  let move_head (x, y) = function
+    | Up -> (x, y + 1)
+    | Down -> (x, y - 1)
+    | Left -> (x - 1, y)
+    | Right -> (x + 1, y)
+
+  let move_tail (xh, yh) (xt, yt) =
+    let sign x = Int.compare x 0 in
+    let dx, dy = (xh - xt, yh - yt) in
+    match (abs dx, abs dy) with
+    | 0, 0 | 0, 1 | 1, 0 | 1, 1 -> (xt, yt)
+    | _ -> (xt + sign dx, yt + sign dy)
+
+  let move_rope { knots } direction =
+    let rec move_knots acc knot = function
+      | [] -> List.rev acc
+      | nk :: nks ->
+          let new_pos = move_tail knot nk in
+          move_knots (new_pos :: acc) new_pos nks
     in
+    let head, tail = (List.hd_exn knots, List.tl_exn knots) in
+    let new_head = move_head head direction in
 
-    Input { size; grid }
+    { knots = new_head :: move_knots [] new_head tail }
 
-  let get_projections index { size; _ } =
-    let index_to_coords index = (index / size, index % size) in
-    let coord_to_index (x, y) = (x * size) + y in
+  let compare_pos (x1, y1) (x2, y2) =
+    match (x2 - x1, y2 - y1) with 0, dy -> dy | dx, _ -> dx
 
-    let x, y = index_to_coords index in
-    let empty_grid = Array.init (size * size) ~f:index_to_coords in
-
-    let grid_projections =
-      [|
-        Array.filter empty_grid ~f:(fun (i, j) -> i = x && j > y);
-        Array.filter empty_grid ~f:(fun (i, j) -> i = x && j < y) |> Array.rev;
-        Array.filter empty_grid ~f:(fun (i, j) -> i > x && j = y);
-        Array.filter empty_grid ~f:(fun (i, j) -> i < x && j = y) |> Array.rev;
-      |]
-    in
-
-    Array.map grid_projections ~f:(Array.map ~f:coord_to_index)
-
-  let is_visible tree_idx forest =
-    let grid = forest.grid in
-    let projections = get_projections tree_idx forest in
-    let tree_height = grid.(tree_idx) in
-
-    Array.exists projections ~f:(fun p ->
-        Array.for_all p ~f:(fun i -> grid.(i) < tree_height))
-
-  let scenic_score tree_idx forest =
-    let grid = forest.grid in
-    let projections = get_projections tree_idx forest in
-
-    let rec counter = function
-      | [] -> 0
-      | l :: ls -> if grid.(tree_idx) <= l then 1 else 1 + counter ls
-    in
-
-    Array.map projections ~f:(fun p -> Array.map p ~f:(fun i -> grid.(i)))
-    |> Array.map ~f:(fun p -> counter (Array.to_list p))
-    |> Array.fold ~init:1 ~f:( * )
-
-  let solve_part1 (Input input) =
-    input.grid
-    |> Array.mapi ~f:(fun i _ -> is_visible i input)
-    |> Array.filter ~f:Fn.id |> Array.length
+  let solve input init_length =
+    input
+    |> List.fold
+         ~init:[ { knots = List.init init_length ~f:(fun _ -> (0, 0)) } ]
+         ~f:(fun ropes dir -> move_rope (List.hd_exn ropes) dir :: ropes)
+    |> List.map ~f:(fun { knots } -> List.last_exn knots)
+    |> List.dedup_and_sort ~compare:compare_pos
+    |> List.length
     |> fun x -> AnswerInt x
 
-  let solve_part2 (Input input) =
-    input.grid
-    |> Array.mapi ~f:(fun i _ -> scenic_score i input)
-    |> Array.fold ~init:0 ~f:Int.max
-    |> fun x -> AnswerInt x
+  let solve_part1 (Input input) = solve input 2
+  let solve_part2 (Input input) = solve input 10
 
   let part1 input_str =
     input_str |> parse_input |> solve_part1 |> answer_to_string
