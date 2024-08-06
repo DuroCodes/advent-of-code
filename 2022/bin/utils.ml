@@ -1,10 +1,15 @@
 open Base
 
-type answer = AnswerInt of int | AnswerCharList of char list | Unknown
+type answer =
+  | AnswerInt of int
+  | AnswerCharList of char list
+  | AnswerString of string
+  | Unknown
 
 let answer_to_string = function
   | AnswerInt x -> Int.to_string x
   | AnswerCharList x -> String.of_char_list x
+  | AnswerString x -> "\n" ^ x
   | Unknown -> "Not Yet Implemented"
 
 module type Day = sig
