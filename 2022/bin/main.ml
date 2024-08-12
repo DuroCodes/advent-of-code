@@ -38,6 +38,7 @@ let () =
     | 11 -> (module Day11.Day11 : Day)
     | 12 -> (module Day12.Day12 : Day)
     | 13 -> (module Day13.Day13 : Day)
+    | 14 -> (module Day14.Day14 : Day)
     | _ -> raise (InvalidDay !day)
   in
   let input_str =
