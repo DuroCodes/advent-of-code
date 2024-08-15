@@ -161,31 +161,21 @@ module Day16 : Day = struct
     in
     find' (0, (26, 26), 0, ("AA", "AA"), [ "AA" ])
 
+  let enrich_input input =
+    let map =
+      {
+        tunnels = Hashtbl.Poly.create ();
+        rates = Hashtbl.Poly.create ();
+        rate_sum = 0;
+      }
+    in
+    input |> List.fold ~init:map ~f:add_tunnels |> enrich
+
   let solve_part1 (Input input) =
-    input
-    |> List.fold
-         ~init:
-           {
-             tunnels = Hashtbl.Poly.create ();
-             rates = Hashtbl.Poly.create ();
-             rate_sum = 0;
-           }
-         ~f:add_tunnels
-    |> enrich |> find
-    |> fun x -> AnswerInt x
+    enrich_input input |> find |> fun x -> AnswerInt x
 
   let solve_part2 (Input input) =
-    input
-    |> List.fold
-         ~init:
-           {
-             tunnels = Hashtbl.Poly.create ();
-             rates = Hashtbl.Poly.create ();
-             rate_sum = 0;
-           }
-         ~f:add_tunnels
-    |> enrich |> find2
-    |> fun x -> AnswerInt x
+    enrich_input input |> find2 |> fun x -> AnswerInt x
 
   let part1 input_str =
     input_str |> parse_input |> solve_part1 |> answer_to_string
