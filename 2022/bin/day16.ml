@@ -36,7 +36,7 @@ module Day16 : Day = struct
     let queue = Queue.create () in
     let distances = Hashtbl.Poly.create () in
     Queue.enqueue queue (0, start);
-    let rec loop queue =
+    let rec loop () =
       if Queue.length queue = 0 then ()
       else
         let distance, valve = Queue.dequeue_exn queue in
@@ -46,29 +46,32 @@ module Day16 : Day = struct
         |> List.iter ~f:(fun n ->
                Hashtbl.set distances ~key:n ~data:(distance + 1);
                Queue.enqueue queue (distance + 1, n));
-        loop queue
+        loop ()
     in
-    loop queue;
+    loop ();
     distances
 
   let enrich map =
-    let new_hash = Hashtbl.Poly.create () in
+    let new_tunnels = Hashtbl.Poly.create () in
     let important =
       "AA"
       :: (Hashtbl.keys map.tunnels
          |> List.filter ~f:(fun t -> Hashtbl.find_exn map.rates t > 0))
     in
-    important
-    |> List.iter ~f:(fun n ->
-           let distances = bfs map n in
-           let new_tunnels =
-             important
-             |> List.filter ~f:(fun n' -> String.( <> ) "AA" n')
-             |> List.filter ~f:(fun n' -> String.( <> ) n n')
-             |> List.map ~f:(fun n' -> (n', Hashtbl.find_exn distances n'))
-           in
-           Hashtbl.set new_hash ~key:n ~data:new_tunnels);
-    map.tunnels <- new_hash;
+
+    let update_tunnels n =
+      let distances = bfs map n in
+      let tunnels =
+        important
+        |> List.filter ~f:(fun n' ->
+               String.( <> ) n' "AA" && String.( <> ) n n')
+        |> List.map ~f:(fun n' -> (n', Hashtbl.find_exn distances n'))
+      in
+      Hashtbl.set new_tunnels ~key:n ~data:tunnels
+    in
+
+    List.iter important ~f:update_tunnels;
+    map.tunnels <- new_tunnels;
     map
 
   let add_tunnels map (from, rate, to') =
@@ -84,7 +87,7 @@ module Day16 : Day = struct
       else (
         max_rates := max !max_rates rate;
         let current = List.hd_exn path in
-        let neighbours = Hashtbl.find_exn map.tunnels current in
+        let neighbors = Hashtbl.find_exn map.tunnels current in
         if time <= 0 then rate
         else
           let next (gate, distance) =
@@ -101,7 +104,7 @@ module Day16 : Day = struct
                 used_rate + gate_rate,
                 gate :: path )
           in
-          List.map ~f:next neighbours |> List.fold ~init:0 ~f:max)
+          List.map ~f:next neighbors |> List.fold ~init:0 ~f:max)
     in
     find' (0, 30, 0, [ "AA" ])
 
@@ -119,8 +122,8 @@ module Day16 : Day = struct
       then rate
       else (
         max_rates := max !max_rates rate;
-        let neighbours = Hashtbl.find_exn map.tunnels current in
-        let elephant_neighbours =
+        let neighbors = Hashtbl.find_exn map.tunnels current in
+        let elephant_neighbors =
           Hashtbl.find_exn map.tunnels current_elephant
         in
         if time <= 0 || elephant_time <= 0 then rate
@@ -154,8 +157,8 @@ module Day16 : Day = struct
           in
           List.concat
             [
-              List.concat_map ~f:(next time false) neighbours;
-              List.concat_map ~f:(next elephant_time true) elephant_neighbours;
+              List.concat_map ~f:(next time false) neighbors;
+              List.concat_map ~f:(next elephant_time true) elephant_neighbors;
             ]
           |> List.fold ~init:0 ~f:max)
     in
