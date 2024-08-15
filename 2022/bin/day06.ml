@@ -1,4 +1,4 @@
-open Base
+open Core
 open Utils
 
 module Day06 : Day = struct
