@@ -9,19 +9,22 @@ module Day15 : Day = struct
   type input = Input of sensor list
 
   let parse_line l =
-    let pattern =
-      Str.regexp
-        "Sensor at x=\\([0-9-]+\\), y=\\([0-9-]+\\): closest beacon is at \
-         x=\\([0-9-]+\\), y=\\([0-9-]+\\)"
+    let matches =
+      let pattern =
+        "Sensor at x=([-0-9]+), y=([-0-9]+): closest beacon is at x=([-0-9]+), \
+         y=([-0-9]+)"
+      in
+      Re.exec (Re.Posix.compile_pat pattern) l
     in
 
-    if Str.string_match pattern l 0 then
-      let x1 = Str.matched_group 1 l |> Int.of_string in
-      let y1 = Str.matched_group 2 l |> Int.of_string in
-      let x2 = Str.matched_group 3 l |> Int.of_string in
-      let y2 = Str.matched_group 4 l |> Int.of_string in
-      { position = (x1, y1); beacon = (x2, y2) }
-    else failwith "Unexpected input format"
+    {
+      position =
+        ( Int.of_string (Re.Group.get matches 1),
+          Int.of_string (Re.Group.get matches 2) );
+      beacon =
+        ( Int.of_string (Re.Group.get matches 3),
+          Int.of_string (Re.Group.get matches 4) );
+    }
 
   let parse_input t =
     t |> String.split_lines |> List.map ~f:parse_line |> fun x -> Input x

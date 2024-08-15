@@ -1,4 +1,4 @@
 (executable
  (public_name advent-of-code)
  (name main)
- (libraries core stdio str))
+ (libraries core stdio re))
