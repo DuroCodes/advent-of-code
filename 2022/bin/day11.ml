@@ -26,8 +26,12 @@ module Day11 : Day = struct
       in
 
       f
-        (match v1 with "old" -> x | _ -> Int.of_string v1)
-        (match v2 with "old" -> x | _ -> Int.of_string v2)
+        (match v1 with
+        | "old" -> x
+        | _ -> Int.of_string v1)
+        (match v2 with
+        | "old" -> x
+        | _ -> Int.of_string v2)
     in
 
     let extract prefix s = String.chop_prefix_exn ~prefix s in
@@ -43,41 +47,22 @@ module Day11 : Day = struct
       |> String.chop_suffix_exn ~suffix:":"
       |> Int.of_string
     in
-    let items =
-      extract "  Starting items: " (List.nth_exn input 1) |> parse_items
-    in
+    let items = extract "  Starting items: " (List.nth_exn input 1) |> parse_items in
     let op_components =
-      extract "  Operation: new = " (List.nth_exn input 2)
-      |> String.split_on_chars ~on:[ ' ' ]
+      extract "  Operation: new = " (List.nth_exn input 2) |> String.split_on_chars ~on:[ ' ' ]
     in
     let operation =
-      parse_operation
-        (List.nth_exn op_components 0)
-        (List.nth_exn op_components 1)
+      parse_operation (List.nth_exn op_components 0) (List.nth_exn op_components 1)
         (List.nth_exn op_components 2)
     in
-    let divisible_by =
-      extract "  Test: divisible by " (List.nth_exn input 3) |> Int.of_string
-    in
+    let divisible_by = extract "  Test: divisible by " (List.nth_exn input 3) |> Int.of_string in
     let test v = v % divisible_by = 0 in
-    let if_true =
-      extract "    If true: throw to monkey " (List.nth_exn input 4)
-      |> Int.of_string
-    in
+    let if_true = extract "    If true: throw to monkey " (List.nth_exn input 4) |> Int.of_string in
     let if_false =
-      extract "    If false: throw to monkey " (List.nth_exn input 5)
-      |> Int.of_string
+      extract "    If false: throw to monkey " (List.nth_exn input 5) |> Int.of_string
     in
-    {
-      id;
-      items;
-      operation;
-      divisible_by;
-      test;
-      if_true;
-      if_false;
-      inspected = 0;
-    }
+
+    { id; items; operation; divisible_by; test; if_true; if_false; inspected = 0 }
 
   let parse_input t =
     t |> String.split_lines
@@ -86,8 +71,7 @@ module Day11 : Day = struct
     |> fun x -> Input x
 
   let throw_items monkey relief =
-    monkey.items
-    |> List.map ~f:monkey.operation
+    monkey.items |> List.map ~f:monkey.operation
     |> List.map ~f:(fun x -> x / relief)
     |> List.map ~f:(fun item ->
            match monkey.test item with
@@ -95,23 +79,18 @@ module Day11 : Day = struct
            | false -> { target = monkey.if_false; item })
 
   let redistribute_items current monkeys items =
-    let divisor =
-      List.fold monkeys ~init:1 ~f:(fun acc m -> acc * m.divisible_by)
-    in
+    let divisor = List.fold monkeys ~init:1 ~f:(fun acc m -> acc * m.divisible_by) in
 
     let process_monkey m =
       let receiving =
-        List.filter_map items ~f:(fun { target; item } ->
-            if target = m.id then Some item else None)
+        List.filter_map items ~f:(fun { target; item } -> if target = m.id then Some item else None)
       in
-      if m.id = current.id then
-        { m with items = []; inspected = m.inspected + List.length m.items }
+      if m.id = current.id then { m with items = []; inspected = m.inspected + List.length m.items }
       else { m with items = List.append m.items receiving }
     in
 
     monkeys |> List.map ~f:process_monkey
-    |> List.map ~f:(fun m ->
-           { m with items = List.map m.items ~f:(fun x -> x % divisor) })
+    |> List.map ~f:(fun m -> { m with items = List.map m.items ~f:(fun x -> x % divisor) })
 
   let play_round monkeys relief =
     let rec play_turn acc = function
@@ -142,9 +121,6 @@ module Day11 : Day = struct
     |> List.fold ~init:1 ~f:( * )
     |> fun x -> AnswerInt x
 
-  let part1 input_str =
-    input_str |> parse_input |> solve_part1 |> answer_to_string
-
-  let part2 input_str =
-    input_str |> parse_input |> solve_part2 |> answer_to_string
+  let part1 input_str = input_str |> parse_input |> solve_part1 |> answer_to_string
+  let part2 input_str = input_str |> parse_input |> solve_part2 |> answer_to_string
 end

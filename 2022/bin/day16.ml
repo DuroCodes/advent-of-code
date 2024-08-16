@@ -16,8 +16,7 @@ module Day16 : Day = struct
   let parse_line l =
     let matches =
       let pattern =
-        "^Valve ([A-Z]+) has flow rate=([0-9]+); tunnels* leads* to valves* \
-         ([A-Z, ]+)$"
+        "^Valve ([A-Z]+) has flow rate=([0-9]+); tunnels* leads* to valves* ([A-Z, ]+)$"
       in
       Re.exec (Re.Posix.compile_pat pattern) l
     in
@@ -29,8 +28,7 @@ module Day16 : Day = struct
       |> List.filter ~f:(Fn.non String.is_empty)
       |> List.map ~f:(fun t -> (t, 1)) )
 
-  let parse_input t =
-    t |> String.split_lines |> List.map ~f:parse_line |> fun x -> Input x
+  let parse_input t = t |> String.split_lines |> List.map ~f:parse_line |> fun x -> Input x
 
   let bfs map start =
     let queue = Queue.create () in
@@ -55,16 +53,14 @@ module Day16 : Day = struct
     let new_tunnels = Hashtbl.Poly.create () in
     let important =
       "AA"
-      :: (Hashtbl.keys map.tunnels
-         |> List.filter ~f:(fun t -> Hashtbl.find_exn map.rates t > 0))
+      :: (Hashtbl.keys map.tunnels |> List.filter ~f:(fun t -> Hashtbl.find_exn map.rates t > 0))
     in
 
     let update_tunnels n =
       let distances = bfs map n in
       let tunnels =
         important
-        |> List.filter ~f:(fun n' ->
-               String.( <> ) n' "AA" && String.( <> ) n n')
+        |> List.filter ~f:(fun n' -> String.( <> ) n' "AA" && String.( <> ) n n')
         |> List.map ~f:(fun n' -> (n', Hashtbl.find_exn distances n'))
       in
       Hashtbl.set new_tunnels ~key:n ~data:tunnels
@@ -95,14 +91,9 @@ module Day16 : Day = struct
             let new_rate =
               rate
               + (time - 1 - distance)
-                *
-                if List.mem path gate ~equal:String.equal then 0 else gate_rate
+                * if List.mem path gate ~equal:String.equal then 0 else gate_rate
             in
-            find'
-              ( new_rate,
-                time - 1 - distance,
-                used_rate + gate_rate,
-                gate :: path )
+            find' (new_rate, time - 1 - distance, used_rate + gate_rate, gate :: path)
           in
           List.map ~f:next neighbors |> List.fold ~init:0 ~f:max)
     in
@@ -110,22 +101,12 @@ module Day16 : Day = struct
 
   let find2 map =
     let max_rates = ref 0 in
-    let rec find'
-        ( rate,
-          (time, elephant_time),
-          used_rate,
-          (current, current_elephant),
-          path ) =
-      if
-        rate + ((map.rate_sum - used_rate) * (min time elephant_time - 2))
-        < !max_rates
-      then rate
+    let rec find' (rate, (time, elephant_time), used_rate, (current, current_elephant), path) =
+      if rate + ((map.rate_sum - used_rate) * (min time elephant_time - 2)) < !max_rates then rate
       else (
         max_rates := max !max_rates rate;
         let neighbors = Hashtbl.find_exn map.tunnels current in
-        let elephant_neighbors =
-          Hashtbl.find_exn map.tunnels current_elephant
-        in
+        let elephant_neighbors = Hashtbl.find_exn map.tunnels current_elephant in
         if time <= 0 || elephant_time <= 0 then rate
         else
           let next next_time is_elephant (gate, distance) =
@@ -133,8 +114,7 @@ module Day16 : Day = struct
             let new_rate =
               rate
               + (next_time - 1 - distance)
-                *
-                if List.mem path gate ~equal:String.equal then 0 else gate_rate
+                * if List.mem path gate ~equal:String.equal then 0 else gate_rate
             in
             if is_elephant then
               [
@@ -165,24 +145,11 @@ module Day16 : Day = struct
     find' (0, (26, 26), 0, ("AA", "AA"), [ "AA" ])
 
   let enrich_input input =
-    let map =
-      {
-        tunnels = Hashtbl.Poly.create ();
-        rates = Hashtbl.Poly.create ();
-        rate_sum = 0;
-      }
-    in
+    let map = { tunnels = Hashtbl.Poly.create (); rates = Hashtbl.Poly.create (); rate_sum = 0 } in
     input |> List.fold ~init:map ~f:add_tunnels |> enrich
 
-  let solve_part1 (Input input) =
-    enrich_input input |> find |> fun x -> AnswerInt x
-
-  let solve_part2 (Input input) =
-    enrich_input input |> find2 |> fun x -> AnswerInt x
-
-  let part1 input_str =
-    input_str |> parse_input |> solve_part1 |> answer_to_string
-
-  let part2 input_str =
-    input_str |> parse_input |> solve_part2 |> answer_to_string
+  let solve_part1 (Input input) = enrich_input input |> find |> fun x -> AnswerInt x
+  let solve_part2 (Input input) = enrich_input input |> find2 |> fun x -> AnswerInt x
+  let part1 input_str = input_str |> parse_input |> solve_part1 |> answer_to_string
+  let part2 input_str = input_str |> parse_input |> solve_part2 |> answer_to_string
 end

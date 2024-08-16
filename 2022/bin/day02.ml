@@ -12,9 +12,15 @@ module Day02 : Day = struct
     let opponent, player = (String.get str 0, String.get str 2) in
     let parse c =
       match c with
-      | 'A' | 'X' -> Rock
-      | 'B' | 'Y' -> Paper
-      | 'C' | 'Z' -> Scissors
+      | 'A'
+      | 'X' ->
+          Rock
+      | 'B'
+      | 'Y' ->
+          Paper
+      | 'C'
+      | 'Z' ->
+          Scissors
       | _ -> failwith "Invalid move"
     in
     { opp = parse opponent; player = parse player }
@@ -43,13 +49,27 @@ module Day02 : Day = struct
     |> List.unzip
     |> fun x -> Input x
 
-  let move_score = function Rock -> 1 | Paper -> 2 | Scissors -> 3
-  let outcome_score x = match x with Loss -> 0 | Draw -> 3 | Win -> 6
+  let move_score = function
+    | Rock -> 1
+    | Paper -> 2
+    | Scissors -> 3
+
+  let outcome_score x =
+    match x with
+    | Loss -> 0
+    | Draw -> 3
+    | Win -> 6
 
   let round_outcome opponent player =
     match (opponent, player) with
-    | Rock, Paper | Paper, Scissors | Scissors, Rock -> Win
-    | Rock, Rock | Paper, Paper | Scissors, Scissors -> Draw
+    | Rock, Paper
+    | Paper, Scissors
+    | Scissors, Rock ->
+        Win
+    | Rock, Rock
+    | Paper, Paper
+    | Scissors, Scissors ->
+        Draw
     | _ -> Loss
 
   let round_score opponent player =
@@ -57,8 +77,14 @@ module Day02 : Day = struct
 
   let player_move opponent outcome =
     match (opponent, outcome) with
-    | Rock, Loss | Paper, Win | Scissors, Draw -> Scissors
-    | Rock, Draw | Paper, Loss | Scissors, Win -> Rock
+    | Rock, Loss
+    | Paper, Win
+    | Scissors, Draw ->
+        Scissors
+    | Rock, Draw
+    | Paper, Loss
+    | Scissors, Win ->
+        Rock
     | _ -> Paper
 
   let solve_part1 (Input (input, _)) =
@@ -73,9 +99,6 @@ module Day02 : Day = struct
     |> List.fold ~init:0 ~f:( + )
     |> fun x -> AnswerInt x
 
-  let part1 input_str =
-    input_str |> parse_input |> solve_part1 |> answer_to_string
-
-  let part2 input_str =
-    input_str |> parse_input |> solve_part2 |> answer_to_string
+  let part1 input_str = input_str |> parse_input |> solve_part1 |> answer_to_string
+  let part2 input_str = input_str |> parse_input |> solve_part2 |> answer_to_string
 end

@@ -21,8 +21,7 @@ module Day09 : Day = struct
     List.nth_exn split 1 |> Int.of_string |> List.init ~f:(fun _ -> dir)
 
   let parse_input t =
-    t |> String.split_lines |> List.map ~f:parse_line |> List.concat |> fun x ->
-    Input x
+    t |> String.split_lines |> List.map ~f:parse_line |> List.concat |> fun x -> Input x
 
   let move_head (x, y) = function
     | Up -> (x, y + 1)
@@ -34,7 +33,11 @@ module Day09 : Day = struct
     let sign x = Int.compare x 0 in
     let dx, dy = (xh - xt, yh - yt) in
     match (abs dx, abs dy) with
-    | 0, 0 | 0, 1 | 1, 0 | 1, 1 -> (xt, yt)
+    | 0, 0
+    | 0, 1
+    | 1, 0
+    | 1, 1 ->
+        (xt, yt)
     | _ -> (xt + sign dx, yt + sign dy)
 
   let move_rope { knots } direction =
@@ -50,7 +53,9 @@ module Day09 : Day = struct
     { knots = new_head :: move_knots [] new_head tail }
 
   let compare_pos (x1, y1) (x2, y2) =
-    match (x2 - x1, y2 - y1) with 0, dy -> dy | dx, _ -> dx
+    match (x2 - x1, y2 - y1) with
+    | 0, dy -> dy
+    | dx, _ -> dx
 
   let solve input init_length =
     input
@@ -64,10 +69,6 @@ module Day09 : Day = struct
 
   let solve_part1 (Input input) = solve input 2
   let solve_part2 (Input input) = solve input 10
-
-  let part1 input_str =
-    input_str |> parse_input |> solve_part1 |> answer_to_string
-
-  let part2 input_str =
-    input_str |> parse_input |> solve_part2 |> answer_to_string
+  let part1 input_str = input_str |> parse_input |> solve_part1 |> answer_to_string
+  let part2 input_str = input_str |> parse_input |> solve_part2 |> answer_to_string
 end

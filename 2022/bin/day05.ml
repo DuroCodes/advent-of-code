@@ -21,9 +21,7 @@ module Day05 : Day = struct
            | x -> Some (Int.of_string x))
     in
 
-    let crate_map s =
-      List.map lines_with_crates ~f:(fun l -> crate_from_stack l s)
-    in
+    let crate_map s = List.map lines_with_crates ~f:(fun l -> crate_from_stack l s) in
 
     stack_nums |> List.map ~f:crate_map
     |> List.map ~f:(fun s -> List.filter s ~f:(fun c -> Char.( <> ) c ' '))
@@ -31,22 +29,22 @@ module Day05 : Day = struct
   let parse_procs lines =
     let parse line =
       match String.split ~on:' ' line with
-      | [ "move"; n; "from"; s; "to"; t ] ->
-          Some (Int.of_string s, Int.of_string t, Int.of_string n)
+      | [ "move"; n; "from"; s; "to"; t ] -> Some (Int.of_string s, Int.of_string t, Int.of_string n)
       | _ -> None
     in
     List.filter_map lines ~f:parse
 
   let parse_input t =
-    t |> String.split_lines |> List.group ~break:(fun x _ -> String.(x = ""))
-    |> fun l ->
+    t |> String.split_lines |> List.group ~break:(fun x _ -> String.(x = "")) |> fun l ->
     let stacks = parse_stacks (List.hd_exn l) in
     let procs = parse_procs (List.hd_exn @@ List.drop l 1) in
     Input { stacks; procs }
 
   let rec restack first second n =
     match (first, second, n) with
-    | [], _, _ | _, _, 0 -> (first, second)
+    | [], _, _
+    | _, _, 0 ->
+        (first, second)
     | hd :: tl, _, n -> restack tl (hd :: second) (n - 1)
 
   let restack_by_n first second n =
@@ -78,9 +76,6 @@ module Day05 : Day = struct
     |> List.filter_map ~f:List.hd
     |> fun x -> AnswerCharList x
 
-  let part1 input_str =
-    input_str |> parse_input |> solve_part1 |> answer_to_string
-
-  let part2 input_str =
-    input_str |> parse_input |> solve_part2 |> answer_to_string
+  let part1 input_str = input_str |> parse_input |> solve_part1 |> answer_to_string
+  let part2 input_str = input_str |> parse_input |> solve_part2 |> answer_to_string
 end

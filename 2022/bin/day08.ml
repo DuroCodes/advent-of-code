@@ -39,8 +39,7 @@ module Day08 : Day = struct
     let projections = get_projections tree_idx forest in
     let tree_height = grid.(tree_idx) in
 
-    Array.exists projections ~f:(fun p ->
-        Array.for_all p ~f:(fun i -> grid.(i) < tree_height))
+    Array.exists projections ~f:(fun p -> Array.for_all p ~f:(fun i -> grid.(i) < tree_height))
 
   let scenic_score tree_idx forest =
     let grid = forest.grid in
@@ -62,14 +61,9 @@ module Day08 : Day = struct
     |> fun x -> AnswerInt x
 
   let solve_part2 (Input input) =
-    input.grid
-    |> Array.mapi ~f:(fun i _ -> scenic_score i input)
-    |> Array.fold ~init:0 ~f:Int.max
+    input.grid |> Array.mapi ~f:(fun i _ -> scenic_score i input) |> Array.fold ~init:0 ~f:max
     |> fun x -> AnswerInt x
 
-  let part1 input_str =
-    input_str |> parse_input |> solve_part1 |> answer_to_string
-
-  let part2 input_str =
-    input_str |> parse_input |> solve_part2 |> answer_to_string
+  let part1 input_str = input_str |> parse_input |> solve_part1 |> answer_to_string
+  let part2 input_str = input_str |> parse_input |> solve_part2 |> answer_to_string
 end

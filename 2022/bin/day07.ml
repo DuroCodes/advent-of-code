@@ -37,12 +37,7 @@ module Day07 : Day = struct
             in
             match List.partition_tf content ~f:filter with
             | [ sub_dir ], other_dirs ->
-                Directory
-                  {
-                    name;
-                    size;
-                    content = add_item sub_dir ps item :: other_dirs;
-                  }
+                Directory { name; size; content = add_item sub_dir ps item :: other_dirs }
             | _ -> failwith "Invalid path"))
 
   let fold_lines (path, tree) line =
@@ -58,9 +53,7 @@ module Day07 : Day = struct
 
   let parse_input t =
     t |> String.split_lines
-    |> List.fold
-         ~init:([], Directory { name = ""; size = None; content = [] })
-         ~f:fold_lines
+    |> List.fold ~init:([], Directory { name = ""; size = None; content = [] }) ~f:fold_lines
     |> snd
     |> fun tree -> Input tree
 
@@ -68,18 +61,14 @@ module Day07 : Day = struct
     match tree with
     | File { size; _ } -> size
     | Directory { size = Some size; _ } -> size
-    | Directory { content; _ } ->
-        List.fold content ~init:0 ~f:(fun acc item -> acc + dir_size item)
+    | Directory { content; _ } -> List.fold content ~init:0 ~f:(fun acc item -> acc + dir_size item)
 
   let rec update_dir_sizes tree =
     match tree with
     | File _ as file -> file
     | Directory ({ content; _ } as dir) ->
         let updated_content = List.map content ~f:update_dir_sizes in
-        let size =
-          List.fold updated_content ~init:0 ~f:(fun acc item ->
-              acc + dir_size item)
-        in
+        let size = List.fold updated_content ~init:0 ~f:(fun acc item -> acc + dir_size item) in
         Directory { dir with size = Some size; content = updated_content }
 
   let rec get_dirs = function
@@ -90,8 +79,7 @@ module Day07 : Day = struct
 
   let solve_part1 (Input input) =
     get_dirs [ update_dir_sizes input ]
-    |> List.filter_map ~f:(fun (_, size) ->
-           if size > 100_000 then None else Some size)
+    |> List.filter_map ~f:(fun (_, size) -> if size > 100_000 then None else Some size)
     |> List.fold ~init:0 ~f:( + )
     |> fun x -> AnswerInt x
 
@@ -102,16 +90,12 @@ module Day07 : Day = struct
     let needed_space = required_space - (total_space - used_space) in
     update_dir_sizes input |> fun tree ->
     get_dirs [ tree ]
-    |> List.filter_map ~f:(fun (_, size) ->
-           if size >= needed_space then Some size else None)
+    |> List.filter_map ~f:(fun (_, size) -> if size >= needed_space then Some size else None)
     |> List.min_elt ~compare:Int.compare
     |> function
     | Some x -> AnswerInt x
     | None -> AnswerInt 0
 
-  let part1 input_str =
-    input_str |> parse_input |> solve_part1 |> answer_to_string
-
-  let part2 input_str =
-    input_str |> parse_input |> solve_part2 |> answer_to_string
+  let part1 input_str = input_str |> parse_input |> solve_part1 |> answer_to_string
+  let part2 input_str = input_str |> parse_input |> solve_part2 |> answer_to_string
 end

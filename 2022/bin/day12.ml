@@ -25,9 +25,7 @@ module Day12 : Day = struct
       | 'E' -> End (Char.to_int 'z' - Char.to_int 'a')
       | x -> Elevation (Char.to_int x - Char.to_int 'a')
     in
-    let elevations =
-      String.concat lines ~sep:"" |> String.to_array |> Array.map ~f:elevation
-    in
+    let elevations = String.concat lines ~sep:"" |> String.to_array |> Array.map ~f:elevation in
     Input { height; width; elevations }
 
   let is_shortest_path (Path path) paths =
@@ -47,8 +45,7 @@ module Day12 : Day = struct
     ]
     |> List.filter ~f:(fun x -> x >= 0 && x < m_w * height)
 
-  let discover_paths { map = { height; width; elevations }; if_move_valid; _ }
-      discovered =
+  let discover_paths { map = { height; width; elevations }; if_move_valid; _ } discovered =
     List.concat_map discovered ~f:(fun (Path p) ->
         let idx = List.hd_exn p in
         let e0 = Array.get elevations idx in
@@ -61,13 +58,10 @@ module Day12 : Day = struct
         if is_shortest_path np sps then (np :: acc_np, add_path np sps)
         else (acc_np, add_path np sps))
 
-  let discover_shortest_paths
-      ({ map = { elevations; _ }; if_goal_reached; start_idx; _ } as rs) =
+  let discover_shortest_paths ({ map = { elevations; _ }; if_goal_reached; start_idx; _ } as rs) =
     let rec iter paths_to_goal paths shortest_paths =
       let new_paths = discover_paths rs paths in
-      let new_paths_filtered, new_shortest_paths =
-        update_paths new_paths shortest_paths
-      in
+      let new_paths_filtered, new_shortest_paths = update_paths new_paths shortest_paths in
       if List.is_empty new_paths_filtered then paths_to_goal
       else
         iter
@@ -78,8 +72,7 @@ module Day12 : Day = struct
     in
     iter [] [ Path [ start_idx ] ] []
 
-  let find_start_idx elevations f =
-    fst (Array.findi_exn elevations ~f:(fun _ -> f))
+  let find_start_idx elevations f = fst (Array.findi_exn elevations ~f:(fun _ -> f))
 
   let discover_paths map if_move_valid if_goal_reached start_idx width height =
     discover_shortest_paths { map; if_move_valid; if_goal_reached; start_idx }
@@ -91,25 +84,44 @@ module Day12 : Day = struct
     discover_paths map
       (function
         | End _ -> fun _ -> false
-        | Start v1 | Elevation v1 -> (
-            function Start _ -> false | End v2 | Elevation v2 -> v2 - v1 < 2))
-      (function End _ -> true | _ -> false)
-      (find_start_idx elevations (function Start _ -> true | _ -> false))
+        | Start v1
+        | Elevation v1 -> (
+            function
+            | Start _ -> false
+            | End v2
+            | Elevation v2 ->
+                v2 - v1 < 2))
+      (function
+        | End _ -> true
+        | _ -> false)
+      (find_start_idx elevations (function
+        | Start _ -> true
+        | _ -> false))
       width height
 
   let solve_part2 (Input ({ width; height; elevations } as map)) =
     discover_paths map
       (function
-        | Elevation 0 | Start _ -> fun _ -> false
-        | End v2 | Elevation v2 -> (
-            function End _ -> false | Start v1 | Elevation v1 -> v2 - v1 < 2))
-      (function Elevation 0 | Start _ -> true | _ -> false)
-      (find_start_idx elevations (function End _ -> true | _ -> false))
+        | Elevation 0
+        | Start _ ->
+            fun _ -> false
+        | End v2
+        | Elevation v2 -> (
+            function
+            | End _ -> false
+            | Start v1
+            | Elevation v1 ->
+                v2 - v1 < 2))
+      (function
+        | Elevation 0
+        | Start _ ->
+            true
+        | _ -> false)
+      (find_start_idx elevations (function
+        | End _ -> true
+        | _ -> false))
       width height
 
-  let part1 input_str =
-    input_str |> parse_input |> solve_part1 |> answer_to_string
-
-  let part2 input_str =
-    input_str |> parse_input |> solve_part2 |> answer_to_string
+  let part1 input_str = input_str |> parse_input |> solve_part1 |> answer_to_string
+  let part2 input_str = input_str |> parse_input |> solve_part2 |> answer_to_string
 end
