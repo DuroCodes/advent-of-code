@@ -11,3 +11,9 @@ trying to do solutions in ocaml 🗣️
 solutions in kotlin, pretty cool language if you ask me 😎
 
 all solutions done with two stars 🔥 (except day 25, that doesn't have a 2nd part)
+
+## 2024
+
+solutions in rust, it's memory safe and blazingly fast, btw 🦀
+
+ran with [`audit`](https://github.com/DuroCodes/audit) to refactor the code after initial solution
