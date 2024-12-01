@@ -4,12 +4,7 @@ open Utils
 let day = ref (-1)
 let input_file = ref ""
 let anon_fun filename = input_file := filename
-
-let speclist =
-  [
-    ("-d", Arg.Set_int day, "Day to run");
-    ("-i", Arg.String anon_fun, "Input file");
-  ]
+let speclist = [ ("-d", Arg.Set_int day, "Day to run"); ("-i", Arg.String anon_fun, "Input file") ]
 
 exception InvalidDay of int
 
@@ -20,9 +15,7 @@ let read_input_file filename =
   s
 
 let () =
-  let () =
-    Arg.parse speclist anon_fun "Usage: advent-of-code -d <day> -i <input file>"
-  in
+  let () = Arg.parse speclist anon_fun "Usage: advent-of-code -d <day> -i <input file>" in
   let (module Day : Day) =
     match !day with
     | 1 -> (module Day01.Day01 : Day)
@@ -42,7 +35,6 @@ let () =
     | 15 -> (module Day15.Day15 : Day)
     | 16 -> (module Day16.Day16 : Day)
     | 17 -> (module Day17.Day17 : Day)
-    | 18 ->( module Day18.Day18 : Day)
     | _ -> raise (InvalidDay !day)
   in
   let input_str =
@@ -51,5 +43,7 @@ let () =
   in
   let answer1 = Day.part1 input_str in
   let answer2 = Day.part2 input_str in
+
+  printf "Day %d\n" !day;
   printf "Part 1: %s\n" answer1;
   printf "Part 2: %s\n" answer2
