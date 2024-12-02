@@ -1,4 +1,4 @@
-use days::Day;
+use days::Solution;
 
 mod days;
 
@@ -8,14 +8,14 @@ fn main() {
 
     let input = std::fs::read_to_string(format!("input/day{day}.txt").as_str()).unwrap();
 
-    let module = match day.as_str() {
-        "1" => days::day01::Day01,
+    let solution = match day.as_str() {
+        "1" => Solution::Day01(days::day01::Day01),
+        "2" => Solution::Day02(days::day02::Day02),
         _ => panic!("Day not implemented"),
     };
 
-    let parsed = module.parse(&input);
-
+    let (part1, part2) = solution.run(&input);
     println!("Day {day}");
-    println!("Part 1: {}", module.part1(&parsed));
-    println!("Part 2: {}", module.part2(&parsed));
+    println!("Part 1: {part1}");
+    println!("Part 2: {part2}");
 }
