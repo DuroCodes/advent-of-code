@@ -1,21 +1,27 @@
-use days::Solution;
+use std::env;
+use std::fs;
 
 mod days;
-
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    let day = &args[1];
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        eprintln!("Usage: {} <day>", args[0]);
+        std::process::exit(1);
+    }
 
-    let input = std::fs::read_to_string(format!("input/day{day}.txt").as_str()).unwrap();
+    let day: usize = args[1].parse().expect("Day must be a number");
+    if day == 0 || day > days::SOLUTIONS.len() {
+        panic!("Day {day} not implemented");
+    }
 
-    let solution = match day.as_str() {
-        "1" => Solution::Day01(days::day01::Day01),
-        "2" => Solution::Day02(days::day02::Day02),
-        _ => panic!("Day not implemented"),
+    let input = match args.len() {
+        3 => fs::read_to_string(&args[2]).expect("Failed to read input"),
+        _ => fs::read_to_string(format!("input/day{day}.txt")).expect("Failed to read input"),
     };
 
-    let (part1, part2) = solution.run(&input);
+    let (part1, part2) = days::SOLUTIONS[day - 1];
+
     println!("Day {day}");
-    println!("Part 1: {part1}");
-    println!("Part 2: {part2}");
+    println!("Part 1: {}", part1(&input));
+    println!("Part 2: {}", part2(&input));
 }
