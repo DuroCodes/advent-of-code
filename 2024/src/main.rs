@@ -22,6 +22,12 @@ fn main() {
     let (part1, part2) = days::SOLUTIONS[day - 1];
 
     println!("Day {day}");
+
+    let start = std::time::Instant::now();
     println!("Part 1: {}", part1(&input));
+    println!("Part 1 took: {:?}", start.elapsed());
+
+    let start = std::time::Instant::now();
     println!("Part 2: {}", part2(&input));
+    println!("Part 2 took: {:?}", start.elapsed());
 }
