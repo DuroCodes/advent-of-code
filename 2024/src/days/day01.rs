@@ -33,3 +33,17 @@ pub fn part2(input: &[(u32, u32)]) -> String {
         .sum::<u32>()
         .to_string()
 }
+
+#[test]
+fn test_day01() {
+    let input = parse(
+        "3   4
+                4   3
+                2   5
+                1   3
+                3   9
+                3   3",
+    );
+    assert_eq!(part1(&input), "11");
+    assert_eq!(part2(&input), "31");
+}

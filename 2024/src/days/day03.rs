@@ -47,3 +47,10 @@ pub fn part2(input: &[Instruction]) -> String {
         .1
         .to_string()
 }
+
+#[test]
+fn test_day03() {
+    let input = parse("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))");
+    assert_eq!(part1(&input), "161");
+    assert_eq!(part2(&input), "48");
+}
