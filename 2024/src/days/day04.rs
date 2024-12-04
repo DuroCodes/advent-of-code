@@ -72,15 +72,15 @@ pub fn part2(input: &Grid) -> String {
 fn test_day04() {
     let input = parse(
         "MMMSXXMASM
-                MSAMXMSMSA
-                AMXSXMAAMM
-                MSAMASMSMX
-                XMASAMXAMM
-                XXAMMXXAMA
-                SMSMSASXSS
-                SAXAMASAAA
-                MAMMMXMMMM
-                MXMXAXMASX",
+         MSAMXMSMSA
+         AMXSXMAAMM
+         MSAMASMSMX
+         XMASAMXAMM
+         XXAMMXXAMA
+         SMSMSASXSS
+         SAXAMASAAA
+         MAMMMXMMMM
+         MXMXAXMASX",
     );
     assert_eq!(part1(&input), "18");
     assert_eq!(part2(&input), "9");
