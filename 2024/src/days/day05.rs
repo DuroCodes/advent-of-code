@@ -4,7 +4,6 @@ use std::collections::HashSet;
 
 pub type Rule = (u32, u32);
 
-#[derive(Debug)]
 pub struct Input {
     rules: Vec<Rule>,
     updates: Vec<Vec<u32>>,
