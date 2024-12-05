@@ -2,7 +2,7 @@ use itertools::Itertools;
 use std::cmp::Ordering::*;
 use std::collections::HashSet;
 
-pub type Rule = (u32, u32);
+type Rule = (u32, u32);
 
 pub struct Input {
     rules: Vec<Rule>,
