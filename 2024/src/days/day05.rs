@@ -10,21 +10,18 @@ pub struct Input {
 }
 
 pub fn parse(input: &str) -> Input {
-    let (rules, updates) = input.split("\n\n").collect_tuple().unwrap();
+    let trimmed = input.lines().map(str::trim).join("\n");
+    let (rules, updates) = trimmed.split_once("\n\n").unwrap();
+
     let rules = rules
         .lines()
-        .filter_map(|line| line.split('|').map(str::trim).collect_tuple())
+        .filter_map(|line| line.split('|').collect_tuple())
         .map(|(a, b)| (a.parse().unwrap(), b.parse().unwrap()))
         .collect();
 
     let updates = updates
         .lines()
-        .map(|line| {
-            line.split(',')
-                .map(str::trim)
-                .map(|n| n.parse().unwrap())
-                .collect()
-        })
+        .map(|line| line.split(',').map(|n| n.parse().unwrap()).collect())
         .collect();
 
     Input { rules, updates }

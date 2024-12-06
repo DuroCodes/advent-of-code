@@ -24,3 +24,8 @@ part2 = "2005"
 day = 5
 part1 = "4609"
 part2 = "5723"
+
+[[solutions]]
+day = 6
+part1 = "4711"
+part2 = "1562"
