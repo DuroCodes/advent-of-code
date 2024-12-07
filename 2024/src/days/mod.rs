@@ -4,6 +4,7 @@ pub mod day03;
 pub mod day04;
 pub mod day05;
 pub mod day06;
+pub mod day07;
 
 type DaySolution = (fn(&str) -> String, fn(&str) -> String);
 
@@ -16,4 +17,4 @@ macro_rules! solutions {
     }
 }
 
-solutions!(day01, day02, day03, day04, day05, day06);
+solutions!(day01, day02, day03, day04, day05, day06, day07);
