@@ -89,35 +89,21 @@ fn next_state(grid: &Grid, guard: Guard) -> Option<Guard> {
         })
 }
 
-fn walk_path(grid: &Grid, start: Guard, obstruction: Option<Point>) -> (HashSet<Point>, bool) {
-    let (max_x, max_y) = (grid[0].len() - 1, grid.len() - 1);
-    let mut path = HashSet::from([start.pos]);
-    let mut visited = HashSet::new();
-    let mut current = start;
+fn walk_path(grid: &Grid, start: Guard, obstruction: Option<Point>) -> HashSet<Point> {
+    let mut seen = HashSet::new();
+    seen.insert(start);
 
-    while let Some(next) = next_state(grid, current) {
-        if !visited.insert(current) {
-            return (path, true);
-        }
-
-        if obstruction.map_or(false, |pos| pos == next.pos) {
-            current = current.rotate();
-            continue;
-        }
-
-        current = next;
-        path.insert(current.pos);
-
-        if current.pos.0 == 0
-            || current.pos.0 == max_x
-            || current.pos.1 == 0
-            || current.pos.1 == max_y
-        {
-            return (path, false);
-        }
-    }
-
-    (path, false)
+    std::iter::successors(Some(start), |&current| {
+        next_state(grid, current).and_then(|next| match (obstruction, next.pos) {
+            (Some(pos), next_pos) if pos == next_pos => Some(current.rotate()),
+            _ => match seen.insert(next) {
+                true => Some(next),
+                false => None,
+            },
+        })
+    })
+    .map(|guard| guard.pos)
+    .collect()
 }
 
 fn adjacent_positions(path: &HashSet<Point>, grid: &Grid) -> Vec<Point> {
@@ -141,8 +127,8 @@ fn adjacent_positions(path: &HashSet<Point>, grid: &Grid) -> Vec<Point> {
 
 fn detect_loop(grid: &Grid, guard: Guard, obstacle: Point, max_steps: usize) -> bool {
     let edge = |p: Point| p.0 == 0 || p.0 == grid[0].len() - 1 || p.1 == 0 || p.1 == grid.len() - 1;
-
     let mut visited = HashSet::new();
+
     (0..max_steps)
         .try_fold(guard, |current, _| {
             if !visited.insert(current) {
@@ -162,13 +148,13 @@ fn detect_loop(grid: &Grid, guard: Guard, obstacle: Point, max_steps: usize) -> 
 
 pub fn part1(input: &(Grid, Guard)) -> String {
     let (grid, guard) = input;
-    walk_path(grid, *guard, None).0.len().to_string()
+    walk_path(grid, *guard, None).len().to_string()
 }
 
 pub fn part2(input: &(Grid, Guard)) -> String {
     let (grid, guard) = input;
 
-    let initial_path = walk_path(grid, *guard, None).0;
+    let initial_path = walk_path(grid, *guard, None);
     let max_steps = grid.len() * grid[0].len() * 4;
 
     adjacent_positions(&initial_path, grid)
