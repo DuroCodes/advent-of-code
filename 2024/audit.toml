@@ -29,3 +29,13 @@ part2 = "5723"
 day = 6
 part1 = "4711"
 part2 = "1562"
+
+[[solutions]]
+day = 7
+part1 = "5702958180383"
+part2 = "92612386119138"
+
+[[solutions]]
+day = 8
+part1 = "398"
+part2 = "1333"
