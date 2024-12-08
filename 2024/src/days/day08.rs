@@ -41,7 +41,7 @@ fn freq_groups(antennas: &[Antenna]) -> Vec<Vec<Point>> {
 }
 
 fn resonant((x1, y1): Point, (x2, y2): Point, (px, py): Point) -> bool {
-    let d1: i32 = (px - x1).abs() + (py - y1).abs();
+    let d1 = (px - x1).abs() + (py - y1).abs();
     let d2 = (px - x2).abs() + (py - y2).abs();
     (d1 == 2 * d2 || d2 == 2 * d1) && (px - x1) * (y2 - y1) == (x2 - x1) * (py - y1)
 }
