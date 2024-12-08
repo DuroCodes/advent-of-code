@@ -51,12 +51,12 @@ fn collinear((x1, y1): Point, (x2, y2): Point, (px, py): Point) -> bool {
 }
 
 fn solve(
-    groups: Vec<Vec<Point>>,
+    antennas: &[Antenna],
     grid: &Grid,
     check_fn: fn(Point, Point, Point) -> bool,
     include_antennas: bool,
 ) -> HashSet<Point> {
-    groups
+    freq_groups(antennas)
         .into_iter()
         .flat_map(|group| {
             let points = (0..grid.height)
@@ -78,13 +78,13 @@ fn solve(
 }
 
 pub fn part1(input: &Grid) -> String {
-    solve(freq_groups(&input.antennas), input, resonant, false)
+    solve(&input.antennas, input, resonant, false)
         .len()
         .to_string()
 }
 
 pub fn part2(input: &Grid) -> String {
-    solve(freq_groups(&input.antennas), input, collinear, true)
+    solve(&input.antennas, input, collinear, true)
         .len()
         .to_string()
 }
