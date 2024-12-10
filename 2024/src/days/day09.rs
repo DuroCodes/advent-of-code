@@ -105,12 +105,12 @@ fn checksum(blocks: &[i32]) -> i64 {
         .sum()
 }
 
-pub fn part1(blocks: &[i32]) -> String {
-    checksum(&compact(blocks)).to_string()
+pub fn part1(input: &[i32]) -> String {
+    checksum(&compact(input)).to_string()
 }
 
-pub fn part2(blocks: &[i32]) -> String {
-    checksum(&compact_whole(blocks)).to_string()
+pub fn part2(input: &[i32]) -> String {
+    checksum(&compact_whole(input)).to_string()
 }
 
 #[test]

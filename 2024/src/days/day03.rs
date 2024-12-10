@@ -1,7 +1,6 @@
 use itertools::Itertools;
 use regex::Regex;
 
-#[derive(Debug)]
 pub enum Instruction {
     Mul(u32, u32),
     Control(bool),

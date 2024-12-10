@@ -4,13 +4,13 @@ use std::collections::HashSet;
 type Grid = Vec<Vec<char>>;
 type Point = (usize, usize);
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Clone, Copy, PartialEq, Hash, Eq)]
 pub struct Guard {
     pos: Point,
     direction: Direction,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Clone, Copy, PartialEq, Hash, Eq)]
 enum Direction {
     Up,
     Right,

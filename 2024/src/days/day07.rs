@@ -1,12 +1,10 @@
 use itertools::Itertools;
 
-#[derive(Debug)]
 pub struct Equation {
     value: i64,
     nums: Vec<i64>,
 }
 
-#[derive(Clone, Copy)]
 enum Op {
     Add,
     Multiply,
