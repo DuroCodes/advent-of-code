@@ -5,57 +5,49 @@ pub fn parse(input: &str) -> Vec<String> {
     input.split_whitespace().map(String::from).collect()
 }
 
-fn transform_stone(num: i64) -> Vec<i64> {
-    match num {
-        0 => vec![1],
-        n => {
-            let s = n.to_string();
-            if s.len() % 2 == 0 {
-                s.chars()
-                    .chunks(s.len() / 2)
-                    .into_iter()
-                    .map(|c| {
-                        c.collect::<String>()
-                            .trim_start_matches('0')
-                            .parse()
-                            .unwrap_or(0)
-                    })
-                    .collect()
-            } else {
-                vec![n * 2024]
-            }
-        }
+fn transform(num: i64) -> Vec<i64> {
+    if num == 0 {
+        return vec![1];
+    }
+
+    let s = num.to_string();
+    match s.len() % 2 {
+        0 => s
+            .chars()
+            .chunks(s.len() / 2)
+            .into_iter()
+            .map(|c| c.collect::<String>().parse().unwrap())
+            .collect(),
+        _ => vec![num * 2024],
     }
 }
 
-fn simulate_blinks(stones: &[String], blinks: usize) -> usize {
-    let mut stones: HashMap<_, usize> = stones
+fn simulate(stones: &[String], blinks: usize) -> usize {
+    let mut counts: HashMap<_, usize> = stones
         .iter()
         .filter_map(|s| s.parse().ok())
         .map(|n| (n, 1))
-        .into_group_map()
-        .into_iter()
-        .map(|(k, v)| (k, v.len()))
         .collect();
 
     for _ in 0..blinks {
-        stones = stones
+        counts = counts
             .into_iter()
-            .flat_map(|(n, c)| transform_stone(n).into_iter().map(move |x| (x, c)))
+            .flat_map(|(n, c)| transform(n).into_iter().map(move |x| (x, c)))
             .into_group_map()
             .into_iter()
             .map(|(k, v)| (k, v.into_iter().sum()))
             .collect();
     }
-    stones.values().sum()
+
+    counts.values().sum()
 }
 
 pub fn part1(input: &Vec<String>) -> String {
-    simulate_blinks(input, 25).to_string()
+    simulate(input, 25).to_string()
 }
 
 pub fn part2(input: &Vec<String>) -> String {
-    simulate_blinks(input, 75).to_string()
+    simulate(input, 75).to_string()
 }
 
 #[test]
