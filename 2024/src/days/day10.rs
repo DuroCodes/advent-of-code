@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
 type Grid = Vec<Vec<u8>>;
-type Pos = (usize, usize);
+type Point = (usize, usize);
 
 pub fn parse(input: &str) -> Grid {
     input
@@ -15,7 +15,7 @@ pub fn parse(input: &str) -> Grid {
         .collect()
 }
 
-fn trailheads(grid: &Grid) -> Vec<Pos> {
+fn trailheads(grid: &Grid) -> Vec<Point> {
     grid.iter()
         .enumerate()
         .flat_map(|(y, row)| {
@@ -27,7 +27,7 @@ fn trailheads(grid: &Grid) -> Vec<Pos> {
         .collect()
 }
 
-fn neighbors(pos: Pos, grid: &Grid) -> Vec<Pos> {
+fn neighbors(pos: Point, grid: &Grid) -> Vec<Point> {
     let (x, y) = pos;
     let height = grid[y][x];
 
@@ -44,7 +44,7 @@ fn neighbors(pos: Pos, grid: &Grid) -> Vec<Pos> {
         .collect()
 }
 
-fn traverse(pos: Pos, grid: &Grid, visited: &mut HashSet<Pos>) {
+fn traverse(pos: Point, grid: &Grid, visited: &mut HashSet<Point>) {
     if !visited.insert(pos) {
         return;
     }
@@ -54,20 +54,20 @@ fn traverse(pos: Pos, grid: &Grid, visited: &mut HashSet<Pos>) {
         .for_each(|next| traverse(next, grid, visited));
 }
 
-fn reachable_positions(start: Pos, grid: &Grid) -> HashSet<Pos> {
+fn reachable_positions(start: Point, grid: &Grid) -> HashSet<Point> {
     let mut visited = HashSet::new();
     traverse(start, grid, &mut visited);
     visited
 }
 
-fn reachable_nines(start: Pos, grid: &Grid) -> usize {
+fn reachable_nines(start: Point, grid: &Grid) -> usize {
     reachable_positions(start, grid)
         .into_iter()
         .filter(|&(x, y)| grid[y][x] == 9)
         .count()
 }
 
-fn count_paths(pos: Pos, grid: &Grid, visited: &mut HashSet<Pos>) -> usize {
+fn count_paths(pos: Point, grid: &Grid, visited: &mut HashSet<Point>) -> usize {
     if grid[pos.1][pos.0] == 9 {
         return 1;
     }
