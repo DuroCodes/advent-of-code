@@ -29,7 +29,7 @@ pub fn parse(input: &str) -> Vec<Machine> {
 }
 
 fn solve_machine(((a_x, a_y), (b_x, b_y), (p_x, p_y)): &Machine, offset: i64) -> Option<i64> {
-    let target = (p_x + offset, p_y + offset);
+    let (target_x, target_y) = (p_x + offset, p_y + offset);
 
     let det = a_x * b_y - a_y * b_x;
     if det == 0 {
@@ -38,8 +38,8 @@ fn solve_machine(((a_x, a_y), (b_x, b_y), (p_x, p_y)): &Machine, offset: i64) ->
 
     // cramers rule
     let (press_a, press_b) = (
-        (target.0 * b_y - target.1 * b_x) as f64 / det as f64,
-        (a_x * target.1 - a_y * target.0) as f64 / det as f64,
+        (target_x * b_y - target_y * b_x) as f64 / det as f64,
+        (a_x * target_y - a_y * target_x) as f64 / det as f64,
     );
 
     let valid_solution =
@@ -48,7 +48,7 @@ fn solve_machine(((a_x, a_y), (b_x, b_y), (p_x, p_y)): &Machine, offset: i64) ->
     valid_solution(press_a, press_b)
         .then(|| {
             let (a, b) = (press_a.round() as i64, press_b.round() as i64);
-            ((a * a_x + b * b_x == target.0) && (a * a_y + b * b_y == target.1))
+            ((a * a_x + b * b_x == target_x) && (a * a_y + b * b_y == target_y))
                 .then_some(a * 3 + b)
         })
         .flatten()
