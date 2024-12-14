@@ -20,16 +20,19 @@ pub fn parse(input: &str) -> Vec<Robot> {
         .collect()
 }
 
-fn simulate(robots: &[Robot], width: i32, height: i32) -> impl Iterator<Item = Robot> + '_ {
-    robots.iter().map(move |&(pos, vel)| {
-        (
+fn simulate(robots: &[Robot], width: i32, height: i32) -> Vec<Robot> {
+    robots
+        .iter()
+        .map(move |&(pos, vel)| {
             (
-                (pos.0 + vel.0).rem_euclid(width),
-                (pos.1 + vel.1).rem_euclid(height),
-            ),
-            vel,
-        )
-    })
+                (
+                    (pos.0 + vel.0).rem_euclid(width),
+                    (pos.1 + vel.1).rem_euclid(height),
+                ),
+                vel,
+            )
+        })
+        .collect()
 }
 
 fn robots_in_quads(robots: &[Robot], width: i32, height: i32) -> (usize, usize, usize, usize) {
@@ -65,9 +68,7 @@ fn robot_density(robots: &[Robot]) -> f64 {
 }
 
 pub fn part1(input: &[Robot]) -> String {
-    let final_state = (0..100).fold(input.to_vec(), |robots, _| {
-        simulate(&robots, 101, 103).collect()
-    });
+    let final_state = (0..100).fold(input.to_vec(), |robots, _| simulate(&robots, 101, 103));
 
     let (a, b, c, d) = robots_in_quads(&final_state, 101, 103);
     (a * b * c * d).to_string()
@@ -77,7 +78,7 @@ pub fn part2(input: &[Robot]) -> String {
     (0..20000)
         .scan(input.to_vec(), |state, t| {
             let density = robot_density(state);
-            *state = simulate(state, 101, 103).collect();
+            *state = simulate(state, 101, 103);
             Some((t, density))
         })
         .min_by(|a, b| a.1.partial_cmp(&b.1).unwrap())
