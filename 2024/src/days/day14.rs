@@ -9,7 +9,6 @@ pub fn parse(input: &str) -> Vec<Robot> {
 
     input
         .lines()
-        .filter(|l| !l.is_empty())
         .map(|line| {
             let caps = re.captures(line).unwrap();
             (
