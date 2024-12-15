@@ -87,7 +87,7 @@ pub fn part2(input: &[Robot]) -> String {
 
 #[test]
 fn test_day14() {
-    let input: Vec<((i32, i32), (i32, i32))> = parse(
+    let input = parse(
         "p=0,4 v=3,-3
          p=6,3 v=-1,-3
          p=10,3 v=-1,2
