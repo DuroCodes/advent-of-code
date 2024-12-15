@@ -9,7 +9,8 @@ pub struct Puzzle {
 }
 
 pub fn parse(input: &str) -> Puzzle {
-    let (grid, instructions) = input.trim().split_once("\n\n").unwrap();
+    let trimmed = input.lines().map(str::trim).join("\n");
+    let (grid, instructions) = trimmed.split_once("\n\n").unwrap();
     let grid = grid.lines().map(|line| line.chars().collect()).collect();
     let instructions = instructions.trim().to_string();
 
@@ -156,6 +157,6 @@ fn test_day15() {
 
          <^^>>>vv<v>>v<<",
     );
-    assert_eq!(part1(&input), "400");
-    assert_eq!(part2(&input), "400");
+    assert_eq!(part1(&input), "2028");
+    assert_eq!(part2(&input), "1751");
 }
