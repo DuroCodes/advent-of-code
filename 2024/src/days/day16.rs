@@ -49,6 +49,12 @@ struct State {
     dir: Direction,
 }
 
+impl State {
+    fn new(cost: i32, pos: (usize, usize), dir: Direction) -> Self {
+        Self { cost, pos, dir }
+    }
+}
+
 impl Ord for State {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         other.cost.cmp(&self.cost)
@@ -98,11 +104,7 @@ fn explore_paths(
     let mut costs = HashMap::new();
 
     dirs.iter().for_each(|&dir| {
-        heap.push(State {
-            cost: 0,
-            pos: start,
-            dir,
-        });
+        heap.push(State::new(0, start, dir));
     });
 
     while let Some(State { cost, pos, dir }) = heap.pop() {
@@ -119,25 +121,12 @@ fn explore_paths(
         if nx >= 0 && nx < maze.grid.len() as i32 && dx >= 0 && dx < maze.grid[0].len() as i32 {
             let new_pos = (nx as usize, dx as usize);
             if maze.grid[new_pos.0][new_pos.1] != '#' {
-                heap.push(State {
-                    cost: cost + 1,
-                    pos: new_pos,
-                    dir,
-                });
+                heap.push(State::new(cost + 1, new_pos, dir));
             }
         }
 
-        heap.push(State {
-            cost: cost + 1000,
-            pos,
-            dir: left(dir),
-        });
-
-        heap.push(State {
-            cost: cost + 1000,
-            pos,
-            dir: right(dir),
-        });
+        heap.push(State::new(cost + 1000, pos, left(dir)));
+        heap.push(State::new(cost + 1000, pos, right(dir)));
     }
 
     costs
