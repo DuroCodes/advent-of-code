@@ -90,3 +90,7 @@ day = 18
 part1 = "348"
 part2 = "54,44"
 
+[[solutions]]
+day = 19
+part1 = "209"
+part2 = "777669668613191"
