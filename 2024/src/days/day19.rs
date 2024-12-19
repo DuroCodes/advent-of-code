@@ -1,6 +1,5 @@
-use std::collections::HashMap;
-
 use itertools::Itertools;
+use std::collections::HashMap;
 
 #[derive(Debug)]
 pub struct Input {
