@@ -8,7 +8,7 @@ pub struct Input {
 }
 
 pub fn parse(input: &str) -> Input {
-    let (patterns, designs) = input.split("\n\n").collect_tuple().unwrap_or_default();
+    let (patterns, designs) = input.split("\n\n").collect_tuple().unwrap();
 
     Input {
         patterns: patterns.split(", ").map(str::to_string).collect(),
