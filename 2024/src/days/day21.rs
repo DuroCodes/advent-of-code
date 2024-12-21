@@ -39,25 +39,15 @@ enum PadType {
 }
 
 fn pad(pos: (i32, i32), pad_type: PadType) -> Option<char> {
-    match (pad_type, pos) {
-        (PadType::Numeric, (0, 0)) => Some('7'),
-        (PadType::Numeric, (0, 1)) => Some('8'),
-        (PadType::Numeric, (0, 2)) => Some('9'),
-        (PadType::Numeric, (1, 0)) => Some('4'),
-        (PadType::Numeric, (1, 1)) => Some('5'),
-        (PadType::Numeric, (1, 2)) => Some('6'),
-        (PadType::Numeric, (2, 0)) => Some('1'),
-        (PadType::Numeric, (2, 1)) => Some('2'),
-        (PadType::Numeric, (2, 2)) => Some('3'),
-        (PadType::Numeric, (3, 1)) => Some('0'),
-        (PadType::Numeric, (3, 2)) => Some('A'),
-        (PadType::Directional, (0, 1)) => Some('^'),
-        (PadType::Directional, (0, 2)) => Some('A'),
-        (PadType::Directional, (1, 0)) => Some('<'),
-        (PadType::Directional, (1, 1)) => Some('v'),
-        (PadType::Directional, (1, 2)) => Some('>'),
-        _ => None,
-    }
+    let keypad = match pad_type {
+        PadType::Numeric => "789 456 123  0A",
+        PadType::Directional => " ^A <v>",
+    };
+
+    keypad
+        .chars()
+        .nth((4 * pos.0 + pos.1) as usize)
+        .filter(|&c| c != ' ')
 }
 
 fn apply((r, c): (i32, i32), mv: char, pad_type: PadType) -> ((i32, i32), Option<char>) {
