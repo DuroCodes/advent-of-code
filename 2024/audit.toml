@@ -109,3 +109,8 @@ part2 = "195969155897936"
 day = 22
 part1 = "14476723788"
 part2 = "1630"
+
+[[solutions]]
+day = 23
+part1 = "1485"
+part2 = "cc,dz,ea,hj,if,it,kf,qo,sk,ug,ut,uv,wh"
