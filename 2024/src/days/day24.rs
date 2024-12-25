@@ -13,7 +13,7 @@ pub struct Circuit {
 }
 
 pub fn parse(input: &str) -> Circuit {
-    let (initial, gates) = input.split("\n\n").collect_tuple().unwrap_or(("", ""));
+    let (initial, gates) = input.split("\n\n").collect_tuple().unwrap();
 
     let wires = initial
         .lines()
