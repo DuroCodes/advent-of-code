@@ -81,7 +81,7 @@ fn execute(computer: &Computer, opcode: i64, operand: i64) -> (usize, i64, i64, 
             computer.reg_a / (1 << combo_value(computer, operand)),
             None,
         ),
-        _ => panic!("invalid opcode"),
+        _ => panic!("Invalid opcode"),
     }
 }
 
