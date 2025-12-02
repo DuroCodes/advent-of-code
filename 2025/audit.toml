@@ -4,3 +4,8 @@
 day = 1
 part1 = "984"
 part2 = "5657"
+
+[[solutions]]
+day = 2
+part1 = "40055209690"
+part2 = "50857215650"
