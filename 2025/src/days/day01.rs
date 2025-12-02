@@ -1,7 +1,3 @@
-fn normalize(pos: i32) -> i32 {
-    pos.rem_euclid(100)
-}
-
 pub fn parse(input: &str) -> Vec<i32> {
     input
         .lines()
@@ -15,6 +11,10 @@ pub fn parse(input: &str) -> Vec<i32> {
             }
         })
         .collect()
+}
+
+fn normalize(pos: i32) -> i32 {
+    pos.rem_euclid(100)
 }
 
 pub fn part1(input: &[i32]) -> String {
