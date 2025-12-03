@@ -1,30 +1,27 @@
 use itertools::Itertools;
 
-pub fn parse(input: &str) -> Vec<String> {
+pub fn parse(input: &str) -> Vec<Vec<u32>> {
     input
         .trim()
         .lines()
-        .map(|line| line.trim().to_string())
+        .map(|line| {
+            line.trim()
+                .chars()
+                .map(|c| c.to_digit(10).unwrap())
+                .collect()
+        })
         .collect()
 }
 
-fn bank_digits(bank: &str) -> Vec<u32> {
-    bank.chars()
-        .map(|c| c.to_digit(10).unwrap())
-        .collect::<Vec<_>>()
-}
-
-fn max_joltage(bank: &str) -> u32 {
-    let digits = bank_digits(bank);
-
-    (0..digits.len())
-        .combinations(2)
-        .map(|indices| digits[indices[0]] * 10 + digits[indices[1]])
+fn max_joltage(bank: &[u32]) -> u32 {
+    (0..bank.len())
+        .tuple_combinations()
+        .map(|(i, j)| bank[i] * 10 + bank[j])
         .max()
         .unwrap_or(0)
 }
 
-pub fn part1(input: &[String]) -> String {
+pub fn part1(input: &[Vec<u32>]) -> String {
     input
         .iter()
         .map(|bank| max_joltage(bank))
@@ -32,18 +29,17 @@ pub fn part1(input: &[String]) -> String {
         .to_string()
 }
 
-fn max_joltage_12(bank: &str) -> u64 {
-    let digits = bank_digits(bank);
+fn max_joltage_12(bank: &[u32]) -> u64 {
     let batteries = 12;
 
     (0..batteries)
         .scan(-1i32, |last_idx, pos| {
             let needed = batteries - pos - 1;
             let start = (*last_idx + 1) as usize;
-            let end = digits.len() - needed;
+            let end = bank.len() - needed;
 
             let (max_digit, max_idx) = (start..end)
-                .map(|i| (digits[i], i))
+                .map(|i| (bank[i], i))
                 .max_by_key(|&(d, i)| (d, -(i as i32)))
                 .unwrap();
 
@@ -53,7 +49,7 @@ fn max_joltage_12(bank: &str) -> u64 {
         .fold(0u64, |acc, d| acc * 10 + d as u64)
 }
 
-pub fn part2(input: &[String]) -> String {
+pub fn part2(input: &[Vec<u32>]) -> String {
     input
         .iter()
         .map(|bank| max_joltage_12(bank))
