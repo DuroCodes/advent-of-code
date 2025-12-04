@@ -19,3 +19,7 @@ solutions in rust, it's memory safe and blazingly fast, btw 🦀
 ran with [`audit`](https://github.com/DuroCodes/audit) to refactor the code after initial solution
 
 also got #1 in the jetbrains rust leaderboard, so that's cool i think 🗣️
+
+## 2025
+
+solutions in rust yet again, year of the crab or whatever 🦀
