@@ -21,21 +21,22 @@ fn count_neighbors(grid: &[Vec<char>], i: usize, j: usize) -> usize {
         .count()
 }
 
-fn find_isolated(grid: &[Vec<char>]) -> impl Iterator<Item = (usize, usize)> + '_ {
+fn find_isolated(grid: &[Vec<char>]) -> HashSet<(usize, usize)> {
     let rows = grid.len();
     let cols = if rows > 0 { grid[0].len() } else { 0 };
 
     iproduct!(0..rows, 0..cols)
         .filter(move |&(i, j)| grid[i][j] == '@')
         .filter(move |&(i, j)| count_neighbors(grid, i, j) < 4)
+        .collect()
 }
 
 pub fn part1(input: &[Vec<char>]) -> String {
-    find_isolated(input).count().to_string()
+    find_isolated(input).len().to_string()
 }
 
 fn remove_round(grid: &[Vec<char>]) -> (Vec<Vec<char>>, usize) {
-    let to_remove = find_isolated(grid).collect::<HashSet<_>>();
+    let to_remove = find_isolated(grid);
 
     let new_grid = grid
         .iter()
