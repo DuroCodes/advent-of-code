@@ -24,6 +24,7 @@ fn find_ranges(grid: &[Vec<char>]) -> Vec<(usize, usize)> {
 
 fn get_from_rows(grid: &[Vec<char>], start: usize, end: usize) -> Vec<u64> {
     let rows = grid.len() - 1;
+
     (0..rows)
         .flat_map(|row| {
             grid[row]
