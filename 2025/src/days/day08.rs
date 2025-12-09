@@ -102,7 +102,6 @@ fn test_day08() {
         984,92,344
         425,690,689",
     );
-
     assert_eq!(part1(&input), "20"); // this differs from the actual test given, since it was only for 10 connections
     assert_eq!(part2(&input), "25272");
 }
