@@ -54,3 +54,8 @@ part2 = "17970"
 day = 11
 part1 = "764"
 part2 = "462444153119850"
+
+[[solutions]]
+day = 12
+part1 = "422"
+part2 = "0"
